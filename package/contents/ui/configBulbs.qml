@@ -139,8 +139,8 @@ KCM.SimpleKCM {
         iconTarget = {"id": id, "key": key}
         iconDialog.open()
     }
-    // The device details line: model · address · MAC · CID/PID · firmware · RSSI,
-    // only what the daemon knows (`details` in get).
+    // The device details line: model · address · MAC · CID/PID · firmware · RSSI ·
+    // colour ability (white range, "colour"), only what the daemon knows (`details` in get).
     function detailsText(bulb) {
         const d = bulb.details || {}
         const parts = [d.model || ctl.kindTitle(bulb.kind)]
@@ -149,6 +149,8 @@ KCM.SimpleKCM {
         if (d.cid || d.pid) parts.push("CID/PID " + (d.cid || "?") + "/" + (d.pid || "?"))
         if (d.firmware) parts.push(tr("Firmware %1", d.firmware))
         if (typeof d.rssi === "number") parts.push(d.rssi + " dBm")
+        if (d.ct_range) parts.push(d.ct_range)
+        if (d.colour) parts.push(tr("colour"))
         return parts.join(" · ")
     }
     // A terminal following the service's journal: konsole, else the Debian

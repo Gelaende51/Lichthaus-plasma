@@ -132,6 +132,7 @@ QtObject {
         "Icon when off (optional)": "Symbol, wenn aus (optional)",
         "Icon when disconnected (optional)": "Symbol, wenn getrennt (optional)",
         "Firmware %1": "Firmware %1",
+        "colour": "Farbe",
         "Invert scroll direction": "Bildlaufrichtung umkehren",
         "Icon set:": "Symbolsatz:",
         "Icon set": "Symbolsatz",
