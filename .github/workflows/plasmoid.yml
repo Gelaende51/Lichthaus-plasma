@@ -1,8 +1,8 @@
 # The Plasma widget loaded once in Plasma 6: an Arch container (Ubuntu 24.04
 # packages Plasma 5), the package installed with kpackagetool6 as
-# install/install.sh does, plasmoidviewer under Xvfb in a D-Bus session, a
-# screenshot as artifact. No daemon runs, so the widget shows its
-# not-running state. What runs where: docs/ci.md.
+# Haus.Licht's install/install.sh does, plasmoidviewer under Xvfb in a D-Bus
+# session, a screenshot as artifact. No daemon runs, so the widget shows its
+# not-running state.
 #
 # Own job, not electron-template's desktops.yml: its KDE sessions run on
 # Ubuntu 24.04 (Plasma 5) and its Arch container only for Hyprland and COSMIC.
@@ -10,10 +10,10 @@ name: Plasma widget
 on:
   push:
     branches: [main]
-    paths: ["plasmoid/**", ".github/workflows/plasmoid.yml"]
+    paths: ["package/**", ".github/workflows/plasmoid.yml"]
   pull_request:
     branches: [main]
-    paths: ["plasmoid/**", ".github/workflows/plasmoid.yml"]
+    paths: ["package/**", ".github/workflows/plasmoid.yml"]
   schedule:
     - cron: "47 4 * * 1"   # Mondays 04:47 UTC: new Plasma releases
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
           plasmashell --version || true
       - name: kpackagetool6 -i
         run: |
-          kpackagetool6 -t Plasma/Applet -i plasmoid/haus.licht.tray
+          kpackagetool6 -t Plasma/Applet -i package
           kpackagetool6 -t Plasma/Applet --list | grep -x haus.licht.tray
       - name: plasmoidviewer
         run: |

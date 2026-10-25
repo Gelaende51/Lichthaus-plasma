@@ -1,4 +1,4 @@
-"""The widget's icon sets (plasmoid contents/icons/<set>/): three themable
+"""The widget's icon sets (package/contents/icons/<set>/): three themable
 22×22 SVGs per set, nothing active or external in them, and the QML list of
 sets (ui/IconSets.qml) matching the folders."""
 import re
@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-PLASMOID = Path(__file__).resolve().parent.parent / "plasmoid" / "haus.licht.tray" / "contents"
+PLASMOID = Path(__file__).resolve().parent.parent / "package" / "contents"
 ICONS = PLASMOID / "icons"
 STATES = ("on", "off", "disconnected")
 SVG = "{http://www.w3.org/2000/svg}"

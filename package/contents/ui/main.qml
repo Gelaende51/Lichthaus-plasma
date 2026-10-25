@@ -46,6 +46,11 @@ PlasmoidItem {
     readonly property bool powered: reachable && st.power !== false && st.bulbs !== 0
     readonly property bool lit: reachable && st.power !== false && st.bulbs > 0
     readonly property bool disconnected: !reachable || st.connected === false || st.online === false
+    // The daemon's ctl protocol (docs/ctl-protocol.md in Haus.Licht, "protocol" in `get`):
+    // it rises only for changes that break an older widget. Missing or lower: a
+    // service from before this widget; the popup says so and stays usable.
+    readonly property int minProtocol: 1
+    readonly property bool serviceTooOld: reachable && !(st.protocol >= minProtocol)
 
     // ------------------------------------------------------------- i18n
     readonly property bool german: Qt.locale().name.startsWith("de")
@@ -153,6 +158,8 @@ PlasmoidItem {
         "Top right": "Oben rechts",
         "Bottom left": "Unten links",
         "Bottom right": "Unten rechts",
+        "The Haus.Licht service is too old for this widget: update Haus.Licht.":
+            "Der Haus.Licht-Dienst ist zu alt für dieses Widget: Haus.Licht aktualisieren.",
     })
     function tr(text) { return (german && de[text]) ? de[text] : text }
 
@@ -909,6 +916,13 @@ PlasmoidItem {
                 width: scroll.availableWidth - popup.margin * 2
                 spacing: Kirigami.Units.smallSpacing * 2
                 enabled: root.reachable
+
+                Kirigami.InlineMessage {
+                    Layout.fillWidth: true
+                    type: Kirigami.MessageType.Warning
+                    visible: root.serviceTooOld
+                    text: root.tr("The Haus.Licht service is too old for this widget: update Haus.Licht.")
+                }
 
                 // Brightness: what the bulbs show; sets the level where it rules.
                 ControlRow {

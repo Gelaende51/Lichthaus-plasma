@@ -1,0 +1,46 @@
+# On a tag v<version>: zip package/ into haus.licht.tray-<version>.plasmoid,
+# write its .sha256 beside it and publish both as the GitHub release. The tag
+# must equal package/metadata.json's KPlugin.Version (v0.2 for 0.2).
+# Haus.Licht's install/install.sh installs the latest release this way.
+name: Release
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Tag matches metadata.json
+        id: version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          meta=$(jq -r '.KPlugin.Version' package/metadata.json)
+          if [ "$tag" != "$meta" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match metadata.json's version $meta"
+            exit 1
+          fi
+          echo "version=$meta" >> "$GITHUB_OUTPUT"
+      - name: Build the .plasmoid
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          file="haus.licht.tray-$VERSION.plasmoid"
+          mkdir -p dist
+          # metadata.json at the archive's root, as kpackagetool6 expects
+          (cd package && zip -X -r "../dist/$file" .)
+          (cd dist && sha256sum "$file" > "$file.sha256" && cat "$file.sha256")
+          unzip -l "dist/$file" | grep -q ' metadata.json$'
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes \
+            "dist/haus.licht.tray-$VERSION.plasmoid" "dist/haus.licht.tray-$VERSION.plasmoid.sha256"

@@ -9,7 +9,7 @@ unchanged except where noted as derived.
 
 | Set (folder) | Source | Author | Licence | Files |
 |---|---|---|---|---|
-| `lighthouse` | Haus.Licht | Haus.Licht contributors | AGPL-3.0 (as the project, see [LICENSE](../../LICENSE)) | all three |
+| `lighthouse` | Haus.Licht | Haus.Licht contributors | AGPL-3.0 (as the project, see [LICENSE](../LICENSE)) | all three |
 | `mdi-lighthouse` | [Material Design Icons](https://github.com/Templarian/MaterialDesign) | Pictogrammers | Apache-2.0 | `on` = *lighthouse-on*, `off` = *lighthouse*; `disconnected` derived: *lighthouse* with Haus.Licht's slash |
 | `mdi-bulb` | [Material Design Icons](https://github.com/Templarian/MaterialDesign) | Pictogrammers | Apache-2.0 | `on` = *lightbulb-on-outline*, `off` = *lightbulb-outline*, `disconnected` = *lightbulb-off-outline* |
 | `tabler-bulb` | [Tabler Icons](https://github.com/tabler/tabler-icons) | Paweł Kuna | MIT | `on` = *bulb*; derived: `off` = *bulb* without its rays, `disconnected` = *bulb-off* without its rays |

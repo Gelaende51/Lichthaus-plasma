@@ -1,0 +1,60 @@
+# On every push and pull request to main: qmllint on the widget's QML and the
+# icon-set checks (tests/test_iconsets.py). The same locally:
+#   (cd package/contents && /usr/lib/qt6/bin/qmllint ui/*.qml config/*.qml)
+#   python -m pytest -q tests
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qmllint:
+    name: qmllint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    # Arch has current Qt 6 and Plasma 6 with their QML modules, so every
+    # import resolves and nothing needs filtering (Ubuntu 24.04 has Plasma 5)
+    container: archlinux:latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Qt 6 and the Plasma modules the widget imports
+        run: pacman -Syu --noconfirm --needed qt6-declarative libplasma kirigami kcmutils kiconthemes plasma5support
+      - name: qmllint
+        run: |
+          cd package/contents
+          /usr/lib/qt6/bin/qmllint --version
+          set +e
+          /usr/lib/qt6/bin/qmllint ui/*.qml config/*.qml > /tmp/qmllint.txt 2>&1
+          code=$?
+          set -e
+          cat /tmp/qmllint.txt
+          echo "--- warnings by category"
+          grep -oE '\[[a-z-]+\]$' /tmp/qmllint.txt | sort | uniq -c || true
+          # Errors fail; so do unresolved imports and types: the modules are
+          # installed, so these mean a misspelt import or a removed type.
+          # Other warnings (unqualified access, property overrides) are style.
+          if [ "$code" -ne 0 ] || grep -qE '^Error' /tmp/qmllint.txt \
+             || grep -qE '\[(import|unresolved-type|missing-type)\]$' /tmp/qmllint.txt; then
+            echo "::error::qmllint found errors or unresolved imports/types"
+            exit 1
+          fi
+
+  iconsets:
+    name: icon sets
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: python -m pip install pytest
+      - name: pytest
+        run: python -m pytest -q tests
