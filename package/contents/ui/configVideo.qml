@@ -127,7 +127,7 @@ KCM.SimpleKCM {
                     Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                     opacity: 0.7
                     text: page.tr("Bluetooth mesh: at most 2 recommended; every update uses one of the bulb's message numbers")
-                          + " " + page.tr("Shared with Follow audio.")
+                          + ". " + page.tr("Shared with Follow audio.")
                 }
             }
             QQC2.Label {
