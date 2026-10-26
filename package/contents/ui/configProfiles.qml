@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Controls as QQC2
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import org.kde.plasma.plasmoid
 
 KCM.SimpleKCM {
     id: page
@@ -20,6 +21,9 @@ KCM.SimpleKCM {
     // "Connect new bulb…" while this page shows: switch to Bulbs.
     property AddBulbRedirect addBulb: AddBulbRedirect { configPage: page }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
+    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // has no Configure dialog around it; Plasma leaves this undefined.
+    readonly property bool standalone: Plasmoid.standalone === true
 
     property string message: ""
     property bool messageOk: false
@@ -105,7 +109,9 @@ KCM.SimpleKCM {
                             icon.name: "dialog-ok-apply"
                             QQC2.ToolTip.visible: hovered
                             QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
-                            QQC2.ToolTip.text: page.tr("The bulb selected in the popup uses this profile. With all bulbs selected, its values become the default for every bulb.")
+                            QQC2.ToolTip.text: page.tr(page.standalone
+                                ? "The bulb selected in widget 1's popup uses this profile. With all bulbs selected, its values become the default for every bulb."
+                                : "The bulb selected in the popup uses this profile. With all bulbs selected, its values become the default for every bulb.")
                             onClicked: page.act(["profile", "apply", row.modelData])
                         }
                         QQC2.Button {
@@ -187,7 +193,9 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
             opacity: 0.7
-            text: page.tr("Copies the settings of the bulb selected in the popup (now: %1) into a new profile, or overwrites the profile of that name.",
+            text: page.tr(page.standalone
+                          ? "Copies the settings of the bulb selected in widget 1's popup (now: %1) into a new profile, or overwrites the profile of that name."
+                          : "Copies the settings of the bulb selected in the popup (now: %1) into a new profile, or overwrites the profile of that name.",
                           page.ctl.bulbName(page.ctl.st.selected))
         }
         RowLayout {

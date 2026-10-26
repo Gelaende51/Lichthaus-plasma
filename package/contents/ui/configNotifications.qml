@@ -13,6 +13,7 @@ import QtQuick.Dialogs as QD
 import QtQuick.Controls as QQC2
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import org.kde.plasma.plasmoid
 
 KCM.SimpleKCM {
     id: page
@@ -24,6 +25,9 @@ KCM.SimpleKCM {
     // "Connect new bulb…" while this page shows: switch to Bulbs.
     property AddBulbRedirect addBulb: AddBulbRedirect { configPage: page }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
+    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // has no Configure dialog around it; Plasma leaves this undefined.
+    readonly property bool standalone: Plasmoid.standalone === true
 
     readonly property var st: ctl.st
     readonly property var rules: st.notify_rules || []
@@ -60,7 +64,7 @@ KCM.SimpleKCM {
     ]
     readonly property var bulbChoices: [
         { "text": tr("All bulbs in use"), "value": "all" },
-        { "text": tr("The widget's selection"), "value": "selection" }
+        { "text": tr(standalone ? "Widget 1's selection" : "The widget's selection"), "value": "selection" }
     ]
     function patternLabel(value) {
         const c = patternChoices.find(x => x.value === value)
@@ -73,7 +77,7 @@ KCM.SimpleKCM {
         if (r.body) parts.push(tr("Text: %1", r.body))
         if (!parts.length) parts.push(tr("Every notification"))
         parts.push(patternLabel(r.pattern) + " × " + r.count + ", " + Math.round(r.intensity) + " %")
-        if (r.bulbs === "selection") parts.push(tr("The widget's selection"))
+        if (r.bulbs === "selection") parts.push(tr(standalone ? "Widget 1's selection" : "The widget's selection"))
         if (r.dark) parts.push(tr("also when the light is off"))
         return parts.join(" · ")
     }
@@ -113,13 +117,18 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 visible: page.status.inhibited === true
+                // A hint, not a size: with fillWidth the label still takes the whole
+                // column. Its unwrapped width would make the form wider than the page
+                // (narrow windows) or push it out of its two-column mode.
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Do Not Disturb is on: nothing blinks.")
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 visible: !!page.status.last
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.status.last
                       ? page.tr("Last match: %1 (%2) at %3", page.status.last.rule, page.status.last.app,
                                 new Date(page.status.last.time * 1000).toLocaleTimeString(Qt.locale(), Locale.ShortFormat))
@@ -128,17 +137,20 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Rules are saved in the current profile (%1).", page.ctl.profileLabel(page.st.profile || "default"))
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 opacity: 0.7
                 text: page.tr("The first rule that matches wins. Patterns are regular expressions, case does not matter; an empty one matches anything.")
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Brightness changes at most 3 times per second.")
             }
         }
@@ -374,6 +386,7 @@ KCM.SimpleKCM {
                 QQC2.Label {
                     Layout.fillWidth: true
                     wrapMode: Text.Wrap
+                    Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                     opacity: 0.7
                     text: darkCheck.checked
                           ? page.tr("Bulbs that are off light up for the blink, also at night.")

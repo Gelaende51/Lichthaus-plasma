@@ -29,6 +29,9 @@ KCM.SimpleKCM {
     // "Connect new bulb…" while this page shows: switch to Bulbs.
     property AddBulbRedirect addBulb: AddBulbRedirect { configPage: page }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
+    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // has no Configure dialog around it; Plasma leaves this undefined.
+    readonly property bool standalone: Plasmoid.standalone === true
     // This widget (`@N`): its clap mode is per widget.
     property HausCtl wctl: HausCtl { widget: page.cfg_widgetIndex; poll.running: false }
     readonly property bool widgetClapOn: !!wctl.st.clap && wctl.st.clap !== "off"
@@ -184,7 +187,7 @@ KCM.SimpleKCM {
 
             QQC2.ComboBox {
                 id: modeBox
-                Kirigami.FormData.label: page.tr("This widget:")
+                Kirigami.FormData.label: page.tr(page.standalone ? "Widget 1:" : "This widget:")
                 textRole: "text"
                 valueRole: "value"
                 model: page.modeChoices
@@ -212,7 +215,11 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 visible: page.muted
+                // A hint, not a size: with fillWidth the label still takes the whole
+                // column. Its unwrapped width would make the form wider than the page
+                // (narrow windows) or push it out of its two-column mode.
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("The microphone is muted: claps are not heard.")
             }
             RowLayout {
@@ -260,7 +267,9 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
-                text: !page.listening ? page.tr("Switch Clap on in a widget's popup to test.")
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
+                text: !page.listening ? page.tr(page.standalone ? "Switch Clap on in widget 1's popup to test."
+                                                  : "Switch Clap on in a widget's popup to test.")
                       : page.meter.state && page.meter.state !== "listening"
                         ? page.tr(page.meter.state === "downloading" ? "Downloading the sound model…"
                                   : page.meter.state === "starting" ? "Starting…" : "Error: %1", page.meter.error || "")
@@ -332,6 +341,7 @@ KCM.SimpleKCM {
                 Layout.fillWidth: true
                 visible: page.ctl.loaded && page.audioStatus.available === false
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Follow audio needs extra packages (%1). Install them with:", (page.audioStatus.missing || []).join(", "))
                       + "\n" + (page.audioStatus.install || "")
             }
@@ -361,6 +371,7 @@ KCM.SimpleKCM {
                 QQC2.Label {
                     Layout.fillWidth: true
                     wrapMode: Text.Wrap
+                    Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                     opacity: 0.7
                     text: page.tr("Bluetooth mesh: at most 2 recommended; every update uses one of the bulb's message numbers")
                 }
@@ -374,11 +385,13 @@ KCM.SimpleKCM {
                 Layout.fillWidth: true
                 visible: page.audioStatus.state === "error" && !!page.audioStatus.error
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Error: %1", page.audioStatus.error || "")
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Brightness changes at most 3 times per second.")
             }
         }
@@ -387,7 +400,8 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
             opacity: 0.7
-            text: page.tr("Sound is analysed on this computer only and never stored. Plasma shows the microphone in use.")
+            text: page.tr(page.standalone ? "Sound is analysed on this computer only and never stored."
+                                    : "Sound is analysed on this computer only and never stored. Plasma shows the microphone in use.")
         }
     }
 }

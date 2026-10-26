@@ -78,7 +78,11 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 visible: page.ctl.loaded && page.status.available === false
+                // A hint, not a size: with fillWidth the label still takes the whole
+                // column. Its unwrapped width would make the form wider than the page
+                // (narrow windows) or push it out of its two-column mode.
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Follow video needs extra packages (%1). Install them with:", (page.status.missing || []).join(", "))
                       + "\n" + (page.status.install || "")
             }
@@ -120,6 +124,7 @@ KCM.SimpleKCM {
                 QQC2.Label {
                     Layout.fillWidth: true
                     wrapMode: Text.Wrap
+                    Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                     opacity: 0.7
                     text: page.tr("Bluetooth mesh: at most 2 recommended; every update uses one of the bulb's message numbers")
                           + " " + page.tr("Shared with Follow audio.")
@@ -128,6 +133,7 @@ KCM.SimpleKCM {
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Brightness changes at most 3 times per second.")
             }
 
@@ -192,6 +198,7 @@ KCM.SimpleKCM {
                 Kirigami.FormData.label: page.tr("Screen permission:")
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.status.permission ? page.tr("Granted: no dialog on the next start")
                                              : page.tr("Not granted: the first start asks")
             }
@@ -199,12 +206,14 @@ KCM.SimpleKCM {
                 Layout.fillWidth: true
                 visible: !!page.status.hint
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr(page.status.hint || "")
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 visible: page.status.state === "error" && !!page.status.error
                 wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("Error: %1", page.status.error || "")
             }
             QQC2.Button {

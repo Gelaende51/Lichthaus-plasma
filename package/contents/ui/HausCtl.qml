@@ -128,6 +128,7 @@ QtObject {
         "Off: Haus.Licht leaves this bulb alone. It comes on after a power cut like an ordinary bulb.":
             "Aus: Haus.Licht lässt diese Lampe in Ruhe. Nach einem Stromausfall geht sie an wie eine gewöhnliche Lampe.",
         "Show in this widget": "In diesem Widget zeigen",
+        "Show in widget 1": "In Widget 1 zeigen",
         "Icon when on": "Symbol, wenn an",
         "Icon when off (optional)": "Symbol, wenn aus (optional)",
         "Icon when disconnected (optional)": "Symbol, wenn getrennt (optional)",
@@ -155,10 +156,14 @@ QtObject {
         "Use for the selection": "Für die Auswahl verwenden",
         "The bulb selected in the popup uses this profile. With all bulbs selected, its values become the default for every bulb.":
             "Die im Popup ausgewählte Lampe nutzt dieses Profil. Sind alle Lampen ausgewählt, werden seine Werte der Standard für jede Lampe.",
+        "The bulb selected in widget 1's popup uses this profile. With all bulbs selected, its values become the default for every bulb.":
+            "Die im Popup von Widget 1 ausgewählte Lampe nutzt dieses Profil. Sind alle Lampen ausgewählt, werden seine Werte der Standard für jede Lampe.",
         "Delete profile %1? Bulbs using it go back to Default.": "Profil %1 löschen? Lampen, die es nutzen, gehen zurück auf Standard.",
         "Save the current settings as a profile": "Aktuelle Einstellungen als Profil speichern",
         "Copies the settings of the bulb selected in the popup (now: %1) into a new profile, or overwrites the profile of that name.":
             "Kopiert die Einstellungen der im Popup ausgewählten Lampe (jetzt: %1) in ein neues Profil oder überschreibt das Profil mit diesem Namen.",
+        "Copies the settings of the bulb selected in widget 1's popup (now: %1) into a new profile, or overwrites the profile of that name.":
+            "Kopiert die Einstellungen der im Popup von Widget 1 ausgewählten Lampe (jetzt: %1) in ein neues Profil oder überschreibt das Profil mit diesem Namen.",
         "Profile name": "Profilname",
         "Saved as %1.": "Als %1 gespeichert.",
         // sound page
@@ -196,6 +201,8 @@ QtObject {
         "Last: %1 · %2 s ago": "Zuletzt: %1 · vor %2 s",
         "Switch Clap on in a widget's popup to test.": "Zum Testen im Popup eines Widgets Klatschen einschalten.",
         "This widget:": "Dieses Widget:",
+        "Switch Clap on in widget 1's popup to test.": "Zum Testen im Popup von Widget 1 Klatschen einschalten.",
+        "Widget 1:": "Widget 1:",
         "Both": "Beides",
         "Downloading the sound model…": "Das Klangmodell wird heruntergeladen…",
         "Starting…": "Startet…",
@@ -204,6 +211,8 @@ QtObject {
             "Die Klatscherkennung braucht zusätzliche Pakete (%1). Installieren mit:",
         "Sound is analysed on this computer only and never stored. Plasma shows the microphone in use.":
             "Der Ton wird nur auf diesem Computer ausgewertet und nie gespeichert. Plasma zeigt das Mikrofon als benutzt an.",
+        "Sound is analysed on this computer only and never stored.":
+            "Der Ton wird nur auf diesem Computer ausgewertet und nie gespeichert.",
         "Follow audio": "Audio folgen",
         "Follow audio needs extra packages (%1). Install them with:":
             "„Audio folgen“ braucht zusätzliche Pakete (%1). Installieren mit:",
@@ -247,6 +256,7 @@ QtObject {
         "Double (two quick blinks)": "Doppelt (zweimal kurz blinken)",
         "All bulbs in use": "Alle benutzten Lampen",
         "The widget's selection": "Die Auswahl des Widgets",
+        "Widget 1's selection": "Die Auswahl von Widget 1",
         "App: %1": "App: %1",
         "Title: %1": "Titel: %1",
         "Text: %1": "Text: %1",

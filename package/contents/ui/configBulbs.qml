@@ -63,6 +63,9 @@ KCM.SimpleKCM {
         }
     }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
+    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // has no Configure dialog around it; Plasma leaves this undefined.
+    readonly property bool standalone: Plasmoid.standalone === true
 
     // Feedback of the last action (daemon errors are worded for the user).
     property string message: ""
@@ -443,8 +446,18 @@ KCM.SimpleKCM {
             }
             onModeChanged: if (mode === "exclusive") loadAdapters()
             Component.onCompleted: if (mode === "exclusive") loadAdapters()
-            RowLayout {
-                QQC2.Label { text: page.tr("Wall-switch flick:") }
+            // Label and choice side by side; the choice below its label when the
+            // page is too narrow for both (long translations).
+            GridLayout {
+                Layout.fillWidth: true
+                // No minimum of its own: its two-column width must not widen the page
+                // and so keep itself in two columns.
+                Layout.minimumWidth: 0
+                columns: parent.width >= flickLabel.implicitWidth + flickCombo.implicitWidth + columnSpacing ? 2 : 1
+                QQC2.Label {
+                    id: flickLabel
+                    text: page.tr("Wall-switch flick:")
+                }
                 QQC2.ComboBox {
                     id: flickCombo
                     enabled: page.ctl.loaded && !flickBox.setup.running && !flickBox.busy
@@ -459,9 +472,17 @@ KCM.SimpleKCM {
                 opacity: 0.7
                 text: page.tr((flickBox.modes.find(m => m.value === flickBox.mode) || flickBox.modes[1]).hint)
             }
-            RowLayout {
+            GridLayout {
                 visible: flickBox.mode === "exclusive"
-                QQC2.Label { text: page.tr("Adapter:") }
+                Layout.fillWidth: true
+                // No minimum of its own: its two-column width must not widen the page
+                // and so keep itself in two columns.
+                Layout.minimumWidth: 0
+                columns: parent.width >= adapterLabel.implicitWidth + adapterCombo.implicitWidth + columnSpacing ? 2 : 1
+                QQC2.Label {
+                    id: adapterLabel
+                    text: page.tr("Adapter:")
+                }
                 QQC2.ComboBox {
                     id: adapterCombo
                     enabled: page.ctl.loaded && flickBox.adapters.length > 0
@@ -685,34 +706,50 @@ KCM.SimpleKCM {
                                 QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
                                 HoverHandler { id: detailsHover }
                             }
-                            RowLayout {
+                            // Use and Show on the left, Profile and Remove on the right; one
+                            // above the other when the page is too narrow for both.
+                            GridLayout {
+                                id: useRow
                                 visible: !card.confirming
-                                QQC2.CheckBox {
-                                    text: page.tr("Use")
-                                    checked: card.used
-                                    onToggled: page.act(["bulb-set", card.bid, "use=" + (checked ? "on" : "off")])
-                                    QQC2.ToolTip.text: page.tr("Off: Haus.Licht leaves this bulb alone. It comes on after a power cut like an ordinary bulb.")
-                                    QQC2.ToolTip.visible: hovered
-                                    QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+                                Layout.fillWidth: true
+                                // No minimum of its own: its two-column width must not widen the page
+                                // and so keep itself in two columns.
+                                Layout.minimumWidth: 0
+                                columns: parent.width >= useLeft.implicitWidth + useRight.implicitWidth + columnSpacing ? 2 : 1
+                                RowLayout {
+                                    id: useLeft
+                                    Layout.fillWidth: true
+                                    QQC2.CheckBox {
+                                        text: page.tr("Use")
+                                        checked: card.used
+                                        onToggled: page.act(["bulb-set", card.bid, "use=" + (checked ? "on" : "off")])
+                                        QQC2.ToolTip.text: page.tr("Off: Haus.Licht leaves this bulb alone. It comes on after a power cut like an ordinary bulb.")
+                                        QQC2.ToolTip.visible: hovered
+                                        QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+                                    }
+                                    QQC2.CheckBox {
+                                        text: page.tr(page.standalone ? "Show in widget 1" : "Show in this widget")
+                                        enabled: card.used
+                                        checked: card.used && page.inWidget.includes(card.bid)
+                                        onToggled: page.setShown(card.bid, checked)
+                                    }
+                                    Item { Layout.fillWidth: true }
                                 }
-                                QQC2.CheckBox {
-                                    text: page.tr("Show in this widget")
-                                    enabled: card.used
-                                    checked: card.used && page.inWidget.includes(card.bid)
-                                    onToggled: page.setShown(card.bid, checked)
-                                }
-                                Item { Layout.fillWidth: true }
-                                QQC2.Label { text: page.tr("Profile:") }
-                                QQC2.ComboBox {
-                                    model: page.profileNames.map(p => page.ctl.profileLabel(p))
-                                    currentIndex: Math.max(0, page.profileNames.indexOf(card.bulb.profile || "default"))
-                                    onActivated: index => page.act(["bulb-set", card.bid,
-                                                                    "profile=" + page.profileNames[index]])
-                                }
-                                QQC2.Button {
-                                    text: page.tr("Remove")
-                                    icon.name: "edit-delete-remove"
-                                    onClicked: card.confirming = true
+                                RowLayout {
+                                    id: useRight
+                                    Layout.alignment: useRow.columns === 2 ? Qt.AlignRight : Qt.AlignLeft
+                                    QQC2.Label { text: page.tr("Profile:") }
+                                    QQC2.ComboBox {
+                                        model: page.profileNames.map(p => page.ctl.profileLabel(p))
+                                        currentIndex: Math.max(0, page.profileNames.indexOf(card.bulb.profile || "default"))
+                                        onActivated: index => page.act(["bulb-set", card.bid,
+                                                                        "profile=" + page.profileNames[index]])
+                                    }
+                                    QQC2.Button {
+                                        text: page.tr("Remove")
+                                        icon.name: "edit-delete-remove"
+                                        onClicked: card.confirming = true
+                                    }
                                 }
                             }
                             // Identify and Test (daemon: identify ID on|off, test ID [stop])
