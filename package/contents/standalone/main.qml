@@ -109,7 +109,7 @@ QQC2.ApplicationWindow {
                 top: parent.top
                 bottom: parent.bottom
             }
-            width: Kirigami.Units.gridUnit * 7
+            width: Kirigami.Units.gridUnit * 8
             contentWidth: availableWidth
             Kirigami.Theme.colorSet: Kirigami.Theme.View
             Kirigami.Theme.inherit: false
