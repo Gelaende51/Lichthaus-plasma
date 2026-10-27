@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Gelaende51"
+            }
+        ],
+        "Description": "Bulbs that follow the video on the screen",
+        "Description[de]": "Lampen, die dem Video auf dem Bildschirm folgen",
+        "Icon": "video-x-generic",
+        "License": "AGPL-3.0-or-later",
+        "Name": "Video",
+        "Name[de]": "Video",
+        "Website": "https://github.com/Gelaende51/Haus.Licht"
+    },
+    "X-HausLicht-Page": "configVideo.qml",
+    "X-KDE-Keywords": "video,screen,ambient,follow,light,Haus.Licht",
+    "X-KDE-Keywords[de]": "Video,Bildschirm,Ambilight,folgen,Licht,Haus.Licht",
+    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-KDE-Weight": 40
+}

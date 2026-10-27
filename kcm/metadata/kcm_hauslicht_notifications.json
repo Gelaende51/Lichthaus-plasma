@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Gelaende51"
+            }
+        ],
+        "Description": "Desktop notifications blink the bulbs, by rules",
+        "Description[de]": "Desktop-Benachrichtigungen lassen die Lampen blinken, nach Regeln",
+        "Icon": "notifications",
+        "License": "AGPL-3.0-or-later",
+        "Name": "Notifications",
+        "Name[de]": "Benachrichtigungen",
+        "Website": "https://github.com/Gelaende51/Haus.Licht"
+    },
+    "X-HausLicht-Page": "configNotifications.qml",
+    "X-KDE-Keywords": "notification,notifications,blink,alert,light,Haus.Licht",
+    "X-KDE-Keywords[de]": "Benachrichtigung,Benachrichtigungen,blinken,Hinweis,Licht,Haus.Licht",
+    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-KDE-Weight": 50
+}

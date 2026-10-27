@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Gelaende51"
+            }
+        ],
+        "Description": "Clap detection and follow audio: microphone and sensitivity",
+        "Description[de]": "Klatscherkennung und Ton folgen: Mikrofon und Empfindlichkeit",
+        "Icon": "audio-input-microphone",
+        "License": "AGPL-3.0-or-later",
+        "Name": "Sound",
+        "Name[de]": "Ton",
+        "Website": "https://github.com/Gelaende51/Haus.Licht"
+    },
+    "X-HausLicht-Page": "configSound.qml",
+    "X-KDE-Keywords": "sound,audio,clap,snap,microphone,music,light,Haus.Licht",
+    "X-KDE-Keywords[de]": "Ton,Audio,Klatschen,Schnipsen,Mikrofon,Musik,Licht,Haus.Licht",
+    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-KDE-Weight": 30
+}

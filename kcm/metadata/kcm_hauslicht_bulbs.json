@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Gelaende51"
+            }
+        ],
+        "Description": "Connect, order and name bulbs; widgets and icon set",
+        "Description[de]": "Lampen verbinden, ordnen und benennen; Widgets und Symbolsatz",
+        "Icon": "preferences-desktop-display",
+        "License": "AGPL-3.0-or-later",
+        "Name": "Bulbs",
+        "Name[de]": "Lampen",
+        "Website": "https://github.com/Gelaende51/Haus.Licht"
+    },
+    "X-HausLicht-Page": "configBulbs.qml",
+    "X-KDE-Keywords": "bulb,bulbs,lamp,light,connect,add,Bluetooth,widget,icon,Haus.Licht",
+    "X-KDE-Keywords[de]": "Lampe,Lampen,Glühbirne,Licht,verbinden,hinzufügen,Bluetooth,Widget,Symbol,Haus.Licht",
+    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-KDE-Weight": 10
+}

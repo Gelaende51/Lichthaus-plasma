@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Gelaende51"
+            }
+        ],
+        "Description": "Rename, delete and use the bulbs' profiles",
+        "Description[de]": "Profile der Lampen umbenennen, löschen und verwenden",
+        "Icon": "bookmarks",
+        "License": "AGPL-3.0-or-later",
+        "Name": "Profiles",
+        "Name[de]": "Profile",
+        "Website": "https://github.com/Gelaende51/Haus.Licht"
+    },
+    "X-HausLicht-Page": "configProfiles.qml",
+    "X-KDE-Keywords": "profile,profiles,light,bulb,scene,Haus.Licht",
+    "X-KDE-Keywords[de]": "Profil,Profile,Licht,Lampe,Szene,Haus.Licht",
+    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-KDE-Weight": 20
+}
