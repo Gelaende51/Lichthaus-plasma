@@ -37,7 +37,7 @@ so in one line; update Haus.Licht.
 
 ## Settings
 
-On Plasma the Configure pages are also in System Settings → Hardware →
+On Plasma the Configure pages are also in System Settings → Connected Devices →
 Haus.Licht (the KCMs in `kcm/`, built and installed by Haus.Licht's
 `install/install.sh`); *Connect new bulb…* then opens them there.
 [How it works](https://github.com/Gelaende51/Haus.Licht/blob/main/docs/system-settings.md).

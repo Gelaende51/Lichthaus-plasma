@@ -41,6 +41,6 @@ in einer Zeile; dann Haus.Licht aktualisieren.
 ## Einstellungen
 
 Unter Plasma finden sich die Einstellungsseiten auch in den
-Systemeinstellungen → Hardware → Haus.Licht (die KCMs in `kcm/`, gebaut und
+Systemeinstellungen → Angeschlossene Geräte → Haus.Licht (die KCMs in `kcm/`, gebaut und
 installiert von `install/install.sh` aus Haus.Licht); *Neue Lampe verbinden…*
 öffnet sie dann dort. [Wie es funktioniert](https://github.com/Gelaende51/Haus.Licht/blob/main/docs/system-settings.md) (englisch).
