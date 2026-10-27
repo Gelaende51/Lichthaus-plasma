@@ -1172,12 +1172,38 @@ KCM.SimpleKCM {
                                     implicitWidth: Kirigami.Units.iconSizes.small
                                     implicitHeight: implicitWidth
                                 }
-                                QQC2.Label {
+                                ColumnLayout {
                                     Layout.fillWidth: true
-                                    elide: Text.ElideRight
-                                    text: (foundRow.modelData.name || foundRow.modelData.address) + "  ·  "
-                                          + foundRow.modelData.address
-                                          + (foundRow.modelData.known ? "  " + page.tr("(added)") : "")
+                                    spacing: 0
+                                    QQC2.Label {
+                                        Layout.fillWidth: true
+                                        elide: Text.ElideRight
+                                        text: (foundRow.modelData.name || foundRow.modelData.address) + "  ·  "
+                                              + foundRow.modelData.address
+                                              + (foundRow.modelData.known ? "  " + page.tr("(added)") : "")
+                                    }
+                                    // The daemon's optional `note` (location, attached device, hint):
+                                    // never part of the name; `warning` marks it as a warning.
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        visible: String(foundRow.modelData.note || "") !== ""
+                                        spacing: Kirigami.Units.smallSpacing
+                                        Kirigami.Icon {
+                                            visible: foundRow.modelData.warning === true
+                                            source: "dialog-warning"
+                                            implicitWidth: Kirigami.Units.iconSizes.small
+                                            implicitHeight: implicitWidth
+                                        }
+                                        QQC2.Label {
+                                            Layout.fillWidth: true
+                                            elide: Text.ElideRight
+                                            font: Kirigami.Theme.smallFont
+                                            color: foundRow.modelData.warning === true
+                                                   ? Kirigami.Theme.neutralTextColor
+                                                   : Kirigami.Theme.disabledTextColor
+                                            text: String(foundRow.modelData.note || "")
+                                        }
+                                    }
                                 }
                                 QQC2.Label {
                                     text: page.ctl.kindTitle(foundRow.modelData.kind)
