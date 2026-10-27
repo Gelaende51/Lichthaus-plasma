@@ -491,9 +491,17 @@ PlasmoidItem {
     // request: Bulbs opens its Add dialog while it is set and clears it
     // (configBulbs.qml); every other page of ours switches the dialog to
     // Bulbs when it is set (AddBulbRedirect.qml).
+    // With Haus.Licht's pages in System Settings (the KCMs of kcm/), that is
+    // where it goes instead: `hauslicht config --system-settings --add-bulb`
+    // opens System Settings at Bulbs with its Add dialog, and exits non-zero
+    // (changing nothing) where they are not installed, or without the
+    // command; then Plasma's Configure dialog opens as before.
     function connectNew() {
-        Plasmoid.configuration.openAddBulb = true
-        Plasmoid.internalAction("configure").trigger()
+        hc.shell(["sh", "-c", 'exec "$HOME/.local/bin/hauslicht" config --system-settings --add-bulb'], code => {
+            if (code === 0) return
+            Plasmoid.configuration.openAddBulb = true
+            Plasmoid.internalAction("configure").trigger()
+        })
     }
 
     compactRepresentation: MouseArea {
