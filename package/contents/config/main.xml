@@ -5,6 +5,10 @@
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
   <kcfgfile name=""/>
   <group name="General">
+    <!-- invertScroll, iconSet, clapLast and autoScanBluetooth are kept by the
+         daemon per widget (its widget_settings, ui/WidgetSettings.qml): these
+         keys are their cache, written to the daemon once when it has none
+         yet, and all there is with a daemon from before. -->
     <!-- Which of the daemon's widgets (1-8) this instance is: its bulb list
          and selection. Widget 1 sits in the system tray. -->
     <entry name="widgetIndex" type="Int">

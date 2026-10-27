@@ -41,6 +41,13 @@ PlasmoidItem {
         widget: root.widgetIndex
         poll.running: false  // root's timer polls, faster while the popup is open
     }
+    // Invert scroll, icon set, clap mode, Auto scan: kept by the daemon per
+    // widget, so the settings window shows the same; the configuration keys
+    // are their cache, carried over to the daemon once (WidgetSettings.qml).
+    WidgetSettings {
+        ctl: hc
+        config: Plasmoid.configuration
+    }
     readonly property var st: hc.st
     readonly property bool reachable: hc.loaded && hc.reachable
     readonly property bool powered: reachable && st.power !== false && st.bulbs !== 0
@@ -290,7 +297,8 @@ PlasmoidItem {
     readonly property bool modeChecked: modeTick >= 0 && reachable && !followOn
 
     // Clap: on/off in the header; "on" is this widget's last mode but off,
-    // kept in its configuration (Configure → Sound chooses it).
+    // the daemon's clap_last for this widget (Configure → Sound chooses it;
+    // the configuration is its cache, WidgetSettings.qml).
     readonly property bool clapAvailable: !st.clap_status || st.clap_status.available !== false
     readonly property bool clapOn: reachable && !!st.clap && st.clap !== "off"
     readonly property bool clapMuted: !!st.clap_status && st.clap_status.muted === true

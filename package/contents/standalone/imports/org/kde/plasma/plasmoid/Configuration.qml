@@ -1,18 +1,24 @@
 /*
  * Plasmoid.configuration for the standalone window: the keys of
  * config/main.xml with its defaults (tests/test_standalone.py checks that
- * they match), kept in ~/.config/hauslicht/settings-window.ini instead of the
- * widget's appletsrc. The window is widget 1 (widgetIndex stays at its
- * default), and openAddBulb is the popup's one-shot flag: neither is saved.
+ * they match). The window is widget 1 (widgetIndex stays at its default),
+ * and openAddBulb is the popup's one-shot flag.
+ *
+ * invertScroll, iconSet, clapLast and autoScanBluetooth are widget 1's in
+ * the daemon (ui/WidgetSettings.qml): taken from its `get`, polled, and a
+ * change goes back to it, so the tray widget shows it too. Nothing is kept
+ * in a file of the window's own; a daemon that does not answer or is too old
+ * to keep them leaves the defaults, and a change lasts until the window
+ * closes. The widget, not the window, carries its old values over.
  *
  * Like KConfigPropertyMap: keys(), and valueChanged(key, value) after every
- * change, which AddBulbRedirect.qml and configBulbs.qml listen to.
+ * change, which AddBulbRedirect.qml, configBulbs.qml and main.qml listen to.
  */
 import QtQuick
-import QtCore
+import "../../../../../../ui"
 
 QtObject {
-    id: config
+    id: shim
 
     property int widgetIndex: 1
     property bool invertScroll: false
@@ -23,42 +29,22 @@ QtObject {
 
     signal valueChanged(string key, var value)
 
-    readonly property var saved: ["invertScroll", "iconSet", "clapLast", "autoScanBluetooth"]
     function keys() {
         return ["widgetIndex", "invertScroll", "iconSet", "clapLast", "openAddBulb", "autoScanBluetooth"]
     }
 
-    property bool loaded: false
-    property Settings store: Settings {
-        location: StandardPaths.writableLocation(StandardPaths.GenericConfigLocation)
-                  + "/hauslicht/settings-window.ini"
-        category: "General"
+    // Widget 1 in the daemon: the window polls it as the tray widget does.
+    readonly property HausCtl daemon: HausCtl { widget: 1 }
+    readonly property WidgetSettings daemonSettings: WidgetSettings {
+        ctl: shim.daemon
+        config: shim
+        migrate: false
     }
 
-    // QSettings hands an INI value back as a string: "false" would be true.
-    function load() {
-        for (const key of saved) {
-            const fallback = config[key]
-            const value = store.value(key, fallback)
-            config[key] = typeof fallback === "boolean" ? String(value) === "true"
-                        : typeof fallback === "number" ? Number(value) : String(value)
-        }
-        loaded = true
-    }
-    function changed(key) {
-        if (!loaded) return
-        if (saved.indexOf(key) >= 0) {
-            store.setValue(key, config[key])
-            store.sync()
-        }
-        valueChanged(key, config[key])
-    }
-
-    onWidgetIndexChanged: changed("widgetIndex")
-    onInvertScrollChanged: changed("invertScroll")
-    onIconSetChanged: changed("iconSet")
-    onClapLastChanged: changed("clapLast")
-    onOpenAddBulbChanged: changed("openAddBulb")
-    onAutoScanBluetoothChanged: changed("autoScanBluetooth")
-    Component.onCompleted: load()
+    onWidgetIndexChanged: valueChanged("widgetIndex", widgetIndex)
+    onInvertScrollChanged: valueChanged("invertScroll", invertScroll)
+    onIconSetChanged: valueChanged("iconSet", iconSet)
+    onClapLastChanged: valueChanged("clapLast", clapLast)
+    onOpenAddBulbChanged: valueChanged("openAddBulb", openAddBulb)
+    onAutoScanBluetoothChanged: valueChanged("autoScanBluetooth", autoScanBluetooth)
 }

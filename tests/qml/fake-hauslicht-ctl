@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+"""A stand-in for hauslicht-ctl in the QML tests (tests/test_widget_settings.py):
+the daemon's widget settings in a JSON file, every call logged. Never talks
+to a socket.
+
+FAKE_HAUSLICHT_STATE: {"widgets": {"1": {...}}, "old": bool, "down": bool,
+"refuse": bool}; old: a daemon from before widget settings (no
+widget_settings in get, the command unknown); down: no daemon answers;
+refuse: widget-settings-set is refused (a value the daemon finds invalid). fake-set KEY=VALUE changes the
+state as another front end would, and replies without the get object.
+"""
+import json
+import os
+import sys
+
+path = os.environ["FAKE_HAUSLICHT_STATE"]
+with open(path) as f:
+    state = json.load(f)
+args = sys.argv[1:]
+with open(path + ".log", "a") as f:
+    f.write(json.dumps(args) + "\n")
+if state.get("down"):
+    print(json.dumps({"error": "daemon not reachable: [Errno 2] No such file or directory"}))
+    sys.exit(1)
+w = "1"
+if args and args[0].startswith("@"):
+    w, args = args[0][1:], args[1:]
+cmd, words = args[0], args[1:]
+
+
+def get():
+    g = {"bulbs_list": [], "protocol": 1, "widget": int(w)}
+    if not state.get("old"):
+        g["widget_settings"] = state["widgets"].get(w, {})
+    return g
+
+
+def store():
+    for word in words:
+        key, _, value = word.partition("=")
+        if key in ("invert_scroll", "auto_scan_bluetooth"):
+            value = value == "on"
+        state["widgets"].setdefault(w, {})[key] = value
+    with open(path, "w") as f:
+        json.dump(state, f)
+
+
+if cmd == "get":
+    out = get()
+elif cmd == "widget-settings-set" and state.get("refuse"):
+    print(json.dumps({"error": "icon_set must be a name of 1-64 letters, digits, '.', '_' or '-'"}))
+    sys.exit(1)
+elif cmd == "widget-settings-set" and not state.get("old"):
+    store()
+    out = get()
+elif cmd == "fake-set":
+    store()
+    out = {"ok": True}
+else:
+    print(json.dumps({"error": f"unknown command {cmd}"}))
+    sys.exit(1)
+print(json.dumps(out))

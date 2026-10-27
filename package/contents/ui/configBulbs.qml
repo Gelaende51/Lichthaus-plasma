@@ -26,7 +26,8 @@ KCM.SimpleKCM {
 
     property HausCtl ctl: HausCtl { widget: page.cfg_widgetIndex }
     // Icon set (main.xml iconSet): written straight to the configuration, so
-    // the tray icon and the popup follow at once, without Apply.
+    // the tray icon and the popup follow at once, without Apply (and on to
+    // the daemon, WidgetSettings.qml).
     readonly property IconSets iconSets: IconSets {}
     readonly property string iconSet: Plasmoid.configuration.iconSet || iconSets.fallback
     // A set in the Icon set box: its on, off and disconnected icons at one

@@ -45,3 +45,16 @@ def test_hosted_pages_exist():
     assert sources
     for source in sources:
         assert (PLASMOID / "ui" / source).is_file()
+
+
+def test_shim_keeps_the_widget_settings_in_the_daemon():
+    """invertScroll, iconSet, clapLast, autoScanBluetooth: widget 1's in the
+    daemon through ui/WidgetSettings.qml, no file of the window's own, and
+    the window never carries its values over (the widget does)."""
+    text = SHIM.read_text(encoding="utf-8")
+    assert "settings-window.ini" not in text and not re.search(r"\bSettings \{", text) and "QtCore" not in text
+    assert re.search(r"HausCtl \{ widget: 1 \}", text)
+    assert re.search(r"WidgetSettings \{[^}]*migrate: false", text)
+    synced = re.findall(r'"(\w+)": "\w+"', (PLASMOID / "ui" / "WidgetSettings.qml").read_text(encoding="utf-8"))
+    assert synced == ["invertScroll", "iconSet", "clapLast", "autoScanBluetooth"]
+    assert set(synced) <= set(main_xml())

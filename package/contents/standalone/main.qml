@@ -11,6 +11,8 @@
  * (AppletConfiguration.qml): categories on the left, the page on the right.
  * Every page changes the daemon directly; the few widget settings they hold
  * as cfg_ properties are saved as soon as they change, so there is no Apply.
+ * Those are widget 1's in the daemon (the stand-in Configuration.qml): when
+ * they arrive or change there, the open page's cfg_ properties follow.
  */
 pragma ComponentBehavior: Bound
 
@@ -86,6 +88,17 @@ QQC2.ApplicationWindow {
             else app.pageStack.replace(page)
             currentSource = url
             if (old && old !== page) old.destroy()
+        }
+
+        // The daemon's values come after the page opened, or change in the
+        // tray widget meanwhile: into the page's cfg_ property.
+        Connections {
+            target: root.config
+            function onValueChanged(key, value) {
+                const page = app.pageStack.currentItem
+                const prop = "cfg_" + key
+                if (page && prop in page && page[prop] !== value) page[prop] = value
+            }
         }
 
         Component.onCompleted: {
