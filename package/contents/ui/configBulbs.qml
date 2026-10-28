@@ -38,6 +38,14 @@ KCM.SimpleKCM {
         required property string setId
         required property string setName
         spacing: Kirigami.Units.smallSpacing
+        // Plasma's desktop style (org.kde.desktop ComboBox.qml) gives every
+        // ComboBox's contentItem a touch-mode cursor that takes it for the
+        // TextInput of an editable box: positionToRectangle(selectionStart)
+        // and selectedText. An empty text answers it; without these its
+        // binding throws a TypeError (System Settings, the widget's dialog).
+        readonly property int selectionStart: 0
+        readonly property string selectedText: ""
+        function positionToRectangle(position) { return Qt.rect(0, 0, 0, 0) }
         Repeater {
             model: ["on", "off", "disconnected"]
             delegate: Kirigami.Icon {

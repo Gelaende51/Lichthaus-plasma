@@ -77,3 +77,19 @@ def test_the_host_gives_the_page_widget_1s_settings(tmp_path):
     assert sets(calls)[-1] == ["invert_scroll=off"]
     assert state["widgets"]["1"]["invert_scroll"] is False
     assert all(not c[0].startswith("@") for c in calls)
+
+
+DESKTOP_STYLE = any(Path(d, "org/kde/desktop/qmldir").is_file()
+                    for d in ("/usr/lib/qt6/qml", "/usr/lib64/qt6/qml", "/usr/lib/x86_64-linux-gnu/qt6/qml"))
+
+
+@pytest.mark.skipif(not (RUNTIME and P5SUPPORT and DESKTOP_STYLE),
+                    reason="needs qml6, Plasma5Support and qqc2-desktop-style")
+def test_the_page_loads_without_errors_in_plasmas_desktop_style(tmp_path, monkeypatch):
+    # System Settings draws the pages in Plasma's desktop style
+    # (qqc2-desktop-style), which reads a ComboBox's contentItem as the
+    # TextInput of an editable box: the Icon set box's preview must answer it.
+    monkeypatch.setenv("QT_QUICK_CONTROLS_STYLE", "org.kde.desktop")
+    harness(tmp_path, "kcm.qml", {"widgets": {"1": {}}}, "--apptype", "widget", "-I", str(IMPORTS))
+    log = (tmp_path / "qml.log").read_text()
+    assert "TypeError" not in log, log

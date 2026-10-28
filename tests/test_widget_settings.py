@@ -42,6 +42,7 @@ def harness(tmp_path, qml, daemon, *extra):
     env.pop("QT_LOGGING_RULES", None)
     p = subprocess.run([RUNTIME, *extra, str(QML / qml), "--", "run"], env=env, capture_output=True,
                        text=True, timeout=60)
+    (tmp_path / "qml.log").write_text(p.stderr)  # the runtime's messages, for tests that read them
     dumps = {}
     for line in p.stderr.splitlines():
         tag, _, rest = line.removeprefix("qml: ").partition(" ")
