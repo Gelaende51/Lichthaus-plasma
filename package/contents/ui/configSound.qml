@@ -1,6 +1,6 @@
 /*
- * Configure → Sound: the microphone and sensitivity of clap detection
- * (global; haus/clap.py) and this widget's mode (clap, snap or both: what
+ * Configure → Sound: the microphone, sensitivity and claps to toggle (2: a
+ * double, 3: a triple) of clap detection (global; haus/clap.py) and this widget's mode (clap, snap or both: what
  * its header's Clap switch turns on, config key clapLast). The daemon listens
  * while any widget's switch is on. Every daemon setting changes at once; the
  * mode is saved with the dialog (Apply / OK) and, while this widget's clap is
@@ -106,9 +106,11 @@ KCM.SimpleKCM {
     }
     function hitsSummary() {
         const list = hits.hits || []
-        const paired = list.filter(h => h.paired).length
-        return tr("Heard %1 · accepted %2 · doubles %3", list.length,
-                  list.filter(h => h.accepted).length, Math.ceil(paired / 2))
+        // Each double or triple once: its hits carry its length (`sequence`);
+        // one cut off at the history's start still counts.
+        const toggles = Math.ceil(list.reduce((n, h) => n + (h.paired ? 1 / (h.sequence || 2) : 0), 0) - 1e-9)
+        return tr(hits.count === 3 ? "Heard %1 · accepted %2 · triples %3" : "Heard %1 · accepted %2 · doubles %3",
+                  list.length, list.filter(h => h.accepted).length, toggles)
     }
     function barsText() {
         const bars = hits.bars || {}
@@ -126,7 +128,8 @@ KCM.SimpleKCM {
         { "text": hitLabel(h), "tip": (h.top || []).map(t => t[0] + " " + Number(t[1]).toFixed(2)).join("\n") },
         { "text": tr("family %1", Number(h.family || 0).toFixed(2)) },
         { "text": hitVerdict(h), "fill": true, "dim": !h.accepted },
-        { "text": h.paired ? "×2" : "", "tip": h.paired ? tr("part of a double") : "" }
+        { "text": h.paired ? "×" + (h.sequence || 2) : "",
+          "tip": !h.paired ? "" : h.sequence === 3 ? tr("part of a triple") : tr("part of a double") }
     ]))
     function hitVerdict(h) {
         if (h.accepted) return "✓"
@@ -253,6 +256,14 @@ KCM.SimpleKCM {
                 }
                 QQC2.Label { text: page.tr("High") }
             }
+            // 2: a double clap or snap toggles; 3: a triple (fewer false alarms).
+            QQC2.SpinBox {
+                Kirigami.FormData.label: page.tr("Claps to toggle:")
+                from: 2
+                to: 3
+                value: page.st.clap_count === 3 ? 3 : 2
+                onValueModified: page.act(["set", "clap_count=" + value])
+            }
 
             Item { Kirigami.FormData.isSection: true }
 
@@ -299,7 +310,7 @@ KCM.SimpleKCM {
                 opacity: 0.7
                 text: page.tr("No sounds heard yet.")
             }
-            // time | kind or best class | family score | ✓ or why not | ×2 (part of a double)
+            // time | kind or best class | family score | ✓ or why not | ×2 / ×3 (part of a double / triple)
             GridLayout {
                 visible: page.listening && page.hitList.length > 0
                 Layout.fillWidth: true

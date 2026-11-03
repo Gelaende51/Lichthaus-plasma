@@ -144,6 +144,8 @@ PlasmoidItem {
         "Clap": "Klatschen",
         "A double clap or double finger snap switches this widget's lights on or off. Clap, snap or both, microphone and sensitivity: Configure → Sound.":
             "Doppeltes Klatschen oder Fingerschnippen schaltet die Lampen dieses Widgets ein oder aus. Klatschen, Schnippen oder beides, Mikrofon und Empfindlichkeit: Einrichten → Ton.",
+        "A triple clap or triple finger snap switches this widget's lights on or off. Clap, snap or both, microphone and sensitivity: Configure → Sound.":
+            "Dreifaches Klatschen oder Fingerschnippen schaltet die Lampen dieses Widgets ein oder aus. Klatschen, Schnippen oder beides, Mikrofon und Empfindlichkeit: Einrichten → Ton.",
         "Needs extra packages: Configure → Sound.": "Braucht zusätzliche Pakete: Einrichten → Ton.",
         "The microphone is muted: claps are not heard.": "Das Mikrofon ist stummgeschaltet: Klatschen wird nicht gehört.",
         "Manual: holding the current level — click to follow the screen":
@@ -868,7 +870,9 @@ PlasmoidItem {
                     Layout.leftMargin: Kirigami.Units.largeSpacing
                     label: root.tr("Clap")
                     tip: !root.clapAvailable ? root.tr("Needs extra packages: Configure → Sound.")
-                        : root.tr("A double clap or double finger snap switches this widget's lights on or off. Clap, snap or both, microphone and sensitivity: Configure → Sound.")
+                        : root.tr(root.st.clap_count === 3
+                                  ? "A triple clap or triple finger snap switches this widget's lights on or off. Clap, snap or both, microphone and sensitivity: Configure → Sound."
+                                  : "A double clap or double finger snap switches this widget's lights on or off. Clap, snap or both, microphone and sensitivity: Configure → Sound.")
                           + (root.clapMuted ? "\n" + root.tr("The microphone is muted: claps are not heard.") : "")
                     checkedState: root.clapOn
                     enabled: root.reachable
