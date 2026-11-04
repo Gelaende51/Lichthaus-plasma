@@ -202,13 +202,14 @@ QtObject {
         "part of a triple": "Teil eines Dreifachen",
         "speakers": "Lautsprecher",
         "Last: %1 · %2 s ago": "Zuletzt: %1 · vor %2 s",
-        "Switch Clap on in a widget's popup to test.": "Zum Testen im Popup eines Widgets Klatschen einschalten.",
         "This widget:": "Dieses Widget:",
-        "Switch Clap on in widget 1's popup to test.": "Zum Testen im Popup von Widget 1 Klatschen einschalten.",
         "Widget 1:": "Widget 1:",
         "Both": "Beides",
         "Downloading the sound model…": "Das Klangmodell wird heruntergeladen…",
         "Starting…": "Startet…",
+        "Test mode: sounds are shown, the lights are not switched.":
+            "Testmodus: Geräusche werden angezeigt, die Lampen werden nicht geschaltet.",
+        "Microphone %1 not found; using the default.": "Mikrofon %1 nicht gefunden; das Standardmikrofon wird verwendet.",
         "Error: %1": "Fehler: %1",
         "Clap detection needs extra packages (%1). Install them with:":
             "Die Klatscherkennung braucht zusätzliche Pakete (%1). Installieren mit:",

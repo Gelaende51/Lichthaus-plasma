@@ -4,8 +4,10 @@
  * its header's Clap switch turns on, config key clapLast). The daemon listens
  * while any widget's switch is on. Every daemon setting changes at once; the
  * mode is saved with the dialog (Apply / OK) and, while this widget's clap is
- * on, sent at once too. The test meter polls `clap-meter` only while this
- * page is shown, `clap-hits` (Recent sounds) every 2 s.
+ * on, sent at once too. The test meter polls `clap-meter --listen` only while
+ * this page is shown, `clap-hits` (Recent sounds) every 2 s; with every
+ * widget's clap off, --listen keeps a test run going in the daemon (hits
+ * shown, lights never switched), which stops 3 s after the page closes.
  *
  * Follow audio (haus/audiofollow.py, global settings): what it listens to,
  * colour from pitch, updates per second, and the mesh messages it sent.
@@ -42,8 +44,13 @@ KCM.SimpleKCM {
     readonly property var st: ctl.st
     readonly property var status: st.clap_status || ({})
     readonly property bool available: ctl.loaded && status.available !== false
-    // Some widget has a mode: the daemon listens (or is getting there).
-    readonly property bool listening: !!status.state && status.state !== "off"
+    // Some widget has a mode: the daemon listens (or is getting there). Its
+    // test run (clap-meter --listen, every mode off) does not count.
+    readonly property bool listening: !!status.state && status.state !== "off" && status.test !== true
+    // The detector runs for this page's meter: normally or as a test run.
+    readonly property bool hearing: listening || meter.test === true
+    // The saved microphone is gone: the daemon uses the default one.
+    readonly property string sourceMissing: meter.source_missing || status.source_missing || ""
     // The chosen source's mute switch: the daemon's while it listens, else
     // what clap-sources said.
     readonly property bool muted: status.muted === true
@@ -68,16 +75,17 @@ KCM.SimpleKCM {
         })
     }
 
-    // The test meter: polled only while the page is visible and detection runs.
+    // The test meter: polled only while the page is visible; with clap off
+    // everywhere, --listen runs the detector in test mode meanwhile.
     property var meter: ({})
     Timer {
         interval: 250
         repeat: true
         triggeredOnStart: true
-        running: page.visible && page.available && page.listening
+        running: page.visible && page.available
         onTriggered: if (!busy) {
             busy = true
-            page.ctl.run(["clap-meter"], reply => { busy = false; if (!reply.error) page.meter = reply })
+            page.ctl.run(["clap-meter", "--listen"], reply => { busy = false; if (!reply.error) page.meter = reply })
         }
         property bool busy: false
     }
@@ -97,7 +105,7 @@ KCM.SimpleKCM {
         interval: 2000
         repeat: true
         triggeredOnStart: true
-        running: page.visible && page.available && page.listening
+        running: page.visible && page.available
         onTriggered: if (!busy) {
             busy = true
             page.ctl.run(["clap-hits"], reply => { busy = false; if (!reply.error) page.hits = reply })
@@ -225,6 +233,13 @@ KCM.SimpleKCM {
                 Layout.preferredWidth: Kirigami.Units.gridUnit * 16
                 text: page.tr("The microphone is muted: claps are not heard.")
             }
+            QQC2.Label {
+                Layout.fillWidth: true
+                visible: page.sourceMissing !== ""
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
+                text: page.tr("Microphone %1 not found; using the default.", page.sourceMissing)
+            }
             RowLayout {
                 Kirigami.FormData.label: page.tr("Sensitivity:")
                 Layout.fillWidth: true
@@ -272,19 +287,17 @@ KCM.SimpleKCM {
                 Layout.fillWidth: true
                 from: 0
                 to: 1
-                value: page.listening && typeof page.meter.level === "number" ? page.meter.level : 0
-                enabled: page.listening
+                value: page.hearing && typeof page.meter.level === "number" ? page.meter.level : 0
             }
             QQC2.Label {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 Layout.preferredWidth: Kirigami.Units.gridUnit * 16
-                text: !page.listening ? page.tr(page.standalone ? "Switch Clap on in widget 1's popup to test."
-                                                  : "Switch Clap on in a widget's popup to test.")
-                      : page.meter.state && page.meter.state !== "listening"
+                text: (page.meter.test === true ? page.tr("Test mode: sounds are shown, the lights are not switched.") + "\n" : "")
+                      + (page.meter.state && page.meter.state !== "listening" && page.meter.state !== "off"
                         ? page.tr(page.meter.state === "downloading" ? "Downloading the sound model…"
                                   : page.meter.state === "starting" ? "Starting…" : "Error: %1", page.meter.error || "")
-                        : page.lastText()
+                        : page.lastText())
             }
         }
 
@@ -301,25 +314,25 @@ KCM.SimpleKCM {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 font: Kirigami.Theme.smallFont
-                text: !page.listening ? page.tr("Clap detection is off")
+                text: !page.hearing ? page.tr("Clap detection is off")
                       : page.hitsSummary() + (page.barsText() ? "\n" + page.barsText() : "")
             }
             QQC2.Label {
-                visible: page.listening && page.hitList.length === 0
+                visible: page.hearing && page.hitList.length === 0
                 font: Kirigami.Theme.smallFont
                 opacity: 0.7
                 text: page.tr("No sounds heard yet.")
             }
             // time | kind or best class | family score | ✓ or why not | ×2 / ×3 (part of a double / triple)
             GridLayout {
-                visible: page.listening && page.hitList.length > 0
+                visible: page.hearing && page.hitList.length > 0
                 Layout.fillWidth: true
                 columns: 5
                 columnSpacing: Kirigami.Units.largeSpacing
                 rowSpacing: 0
                 Repeater {
                     // five cells per hit, row by row
-                    model: page.listening ? page.hitCells : []
+                    model: page.hearing ? page.hitCells : []
                     delegate: QQC2.Label {
                         id: cell
                         required property var modelData
