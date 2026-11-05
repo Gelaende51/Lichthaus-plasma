@@ -303,7 +303,7 @@ PlasmoidItem {
     // the configuration is its cache, WidgetSettings.qml).
     readonly property bool clapAvailable: !st.clap_status || st.clap_status.available !== false
     readonly property bool clapOn: reachable && !!st.clap && st.clap !== "off"
-    readonly property bool clapMuted: !!st.clap_status && st.clap_status.muted === true
+    readonly property bool clapMuted: !!st.clap_status && st.clap_status.muted === true && st.clap_status.test !== true
     readonly property string clapLast: Plasmoid.configuration.clapLast || "both"
     // From st itself: clapOn may not be re-evaluated yet when stChanged runs.
     function syncClapLast() {
