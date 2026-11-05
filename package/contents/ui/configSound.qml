@@ -290,11 +290,18 @@ KCM.SimpleKCM {
                 value: page.hearing && typeof page.meter.level === "number" ? page.meter.level : 0
             }
             QQC2.Label {
+                visible: page.meter.test === true
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 Layout.preferredWidth: Kirigami.Units.gridUnit * 16
-                text: (page.meter.test === true ? page.tr("Test mode: sounds are shown, the lights are not switched.") + "\n" : "")
-                      + (page.meter.state && page.meter.state !== "listening" && page.meter.state !== "off"
+                font.italic: true
+                text: page.tr("Test mode: sounds are shown, the lights are not switched.")
+            }
+            QQC2.Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: Kirigami.Units.gridUnit * 16
+                text: (page.meter.state && page.meter.state !== "listening" && page.meter.state !== "off"
                         ? page.tr(page.meter.state === "downloading" ? "Downloading the sound model…"
                                   : page.meter.state === "starting" ? "Starting…" : "Error: %1", page.meter.error || "")
                         : page.lastText())
