@@ -93,3 +93,27 @@ def test_the_page_loads_without_errors_in_plasmas_desktop_style(tmp_path, monkey
     harness(tmp_path, "kcm.qml", {"widgets": {"1": {}}}, "--apptype", "widget", "-I", str(IMPORTS))
     log = (tmp_path / "qml.log").read_text()
     assert "TypeError" not in log, log
+
+
+@pytest.mark.skipif(not (RUNTIME and P5SUPPORT), reason="needs qml6 and Plasma5Support")
+def test_the_sound_page_runs_the_test_meter_while_clap_is_off(tmp_path):
+    hit = {"time": "02:10:00.123", "kind": "clap", "family": 0.4, "accepted": True, "paired": True,
+           "sequence": 3, "top": [["Clapping", 0.4]]}
+    daemon = {"widgets": {"1": {}},
+              "get": {"clap": "off", "clap_count": 3, "clap_status": {"state": "off", "available": True}},
+              "replies": {
+                  "clap-meter": {"state": "listening", "test": True, "level": 0.5, "source_missing": "gone_mic",
+                                 "last": {"label": "Hands", "score": 0.5, "accepted": True, "age": 1.2}},
+                  "clap-hits": {"count": 3, "hits": [hit] * 3},
+                  "clap-sources": {"sources": [{"name": "usb_mic", "description": "USB microphone", "default": True}]},
+                  "audio-sources": {"sources": []}}}
+    dumps, state, calls = harness(tmp_path, "sound.qml", daemon, "-I", str(IMPORTS))
+    # clap off everywhere: the page asks for a test run and shows what it hears
+    assert dumps["FIRST"] == {"title": "Sound", "available": True, "listening": False, "hearing": True,
+                              "test": True, "sourceMissing": "gone_mic", "muted": False,
+                              "last": "Last: Hands 0.50 · 1 s ago", "summary": "Heard 3 · accepted 3 · triples 1",
+                              "hits": 3, "sources": 2, "clapSource": ""}
+    assert [c for c in calls if "clap-meter" in c][0][-2:] == ["clap-meter", "--listen"]
+    # a microphone picked on the page reaches the daemon as the global setting
+    assert any(c[-2:] == ["set", "clap_source=usb_mic"] for c in calls)
+    assert state["get"]["clap_source"] == "usb_mic" and dumps["LAST"]["clapSource"] == "usb_mic"

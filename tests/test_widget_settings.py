@@ -38,7 +38,7 @@ def harness(tmp_path, qml, daemon, *extra):
     env = {**os.environ, "HOME": str(home), "FAKE_HAUSLICHT_STATE": str(state),
            "HAUSLICHT_SOCK": str(tmp_path / "no.sock"),  # whatever runs: never the live daemon
            "XDG_CONFIG_HOME": str(home / ".config"), "QT_QPA_PLATFORM": "offscreen",
-           "QT_FORCE_STDERR_LOGGING": "1", "LANG": "C"}
+           "QT_FORCE_STDERR_LOGGING": "1", "LANG": "C", "LC_ALL": "C"}
     env.pop("QT_LOGGING_RULES", None)
     p = subprocess.run([RUNTIME, *extra, str(QML / qml), "--", "run"], env=env, capture_output=True,
                        text=True, timeout=60)

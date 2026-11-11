@@ -4,7 +4,9 @@ the daemon's widget settings in a JSON file, every call logged. Never talks
 to a socket.
 
 FAKE_HAUSLICHT_STATE: {"widgets": {"1": {...}}, "old": bool, "down": bool,
-"refuse": bool}; old: a daemon from before widget settings (no
+"refuse": bool, "get": {...}, "replies": {cmd: {...}}}; get: more
+fields of the get object (clap_status, clap_source, ...); replies: what
+clap-meter, clap-hits, clap-sources and audio-sources answer; old: a daemon from before widget settings (no
 widget_settings in get, the command unknown); down: no daemon answers;
 refuse: widget-settings-set is refused (a value the daemon finds invalid). fake-set KEY=VALUE changes the
 state as another front end would, and replies without the get object.
@@ -32,6 +34,7 @@ def get():
     g = {"bulbs_list": [], "protocol": 1, "widget": int(w)}
     if not state.get("old"):
         g["widget_settings"] = state["widgets"].get(w, {})
+    g.update(state.get("get", {}))
     return g
 
 
@@ -53,6 +56,15 @@ elif cmd == "widget-settings-set" and state.get("refuse"):
 elif cmd == "widget-settings-set" and not state.get("old"):
     store()
     out = get()
+elif cmd == "set":
+    for word in words:
+        key, _, value = word.partition("=")
+        state.setdefault("get", {})[key] = value
+    with open(path, "w") as f:
+        json.dump(state, f)
+    out = get()
+elif cmd in state.get("replies", {}):
+    out = state["replies"][cmd]
 elif cmd == "fake-set":
     store()
     out = {"ok": True}
