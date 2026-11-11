@@ -1,6 +1,6 @@
 /*
  * One Configure page in KDE System Settings: the host the KCMs of
- * Haus.Licht-plasma's kcm/ load (kcm_hauslicht_bulbs and its siblings, one
+ * Lichthaus-plasma's kcm/ load (kcm_lichthaus_bulbs and its siblings, one
  * per page of config/config.qml). The KCM gives it a QML engine of its own
  * with standalone/imports on the import path, so the page's
  * `import org.kde.plasma.plasmoid` lands on the same stand-in as in the

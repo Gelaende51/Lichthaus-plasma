@@ -21,7 +21,7 @@ KCM.SimpleKCM {
     // "Connect new bulb…" while this page shows: switch to Bulbs.
     property AddBulbRedirect addBulb: AddBulbRedirect { configPage: page }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
-    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // The standalone settings window (lichthaus config) acts as widget 1 and
     // has no Configure dialog around it; Plasma leaves this undefined.
     readonly property bool standalone: Plasmoid.standalone === true
 
@@ -62,7 +62,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
             type: Kirigami.MessageType.Warning
             visible: !page.ctl.reachable
-            text: page.tr("The Haus.Licht service does not answer. Start it with: systemctl --user start hauslicht")
+            text: page.tr("The Lichthaus service does not answer. Start it with: systemctl --user start lichthaus")
         }
         Kirigami.InlineMessage {
             Layout.fillWidth: true

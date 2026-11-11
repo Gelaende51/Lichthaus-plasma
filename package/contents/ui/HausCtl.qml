@@ -1,5 +1,5 @@
 /*
- * Shared by the Configure pages: talks to the daemon through hauslicht-ctl
+ * Shared by the Configure pages: talks to the daemon through lichthaus-ctl
  * (the executable data engine, as main.qml does), keeps the last `get`
  * reply and translates the pages' strings (English + German table).
  *
@@ -37,8 +37,8 @@ QtObject {
         "Save": "Speichern",
         "Add": "Hinzufügen",
         "all bulbs": "alle Lampen",
-        "The Haus.Licht service does not answer. Start it with: systemctl --user start hauslicht":
-            "Der Haus.Licht-Dienst antwortet nicht. Starten mit: systemctl --user start hauslicht",
+        "The Lichthaus service does not answer. Start it with: systemctl --user start lichthaus":
+            "Der Lichthaus-Dienst antwortet nicht. Starten mit: systemctl --user start lichthaus",
         // bulbs page
         "No bulbs yet. Add one below.": "Noch keine Lampen. Unten eine hinzufügen.",
         "Name": "Name",
@@ -47,7 +47,7 @@ QtObject {
         "Disconnected": "Getrennt",
         "Unreachable": "Nicht erreichbar",
         "Profile:": "Profil:",
-        "Remove %1? Haus.Licht stops controlling it.": "%1 entfernen? Haus.Licht steuert sie dann nicht mehr.",
+        "Remove %1? Lichthaus stops controlling it.": "%1 entfernen? Lichthaus steuert sie dann nicht mehr.",
         "Identify": "Identifizieren",
         "Blink slowly to find this bulb": "Langsam blinken, um diese Lampe zu finden",
         "Test": "Testen",
@@ -98,8 +98,8 @@ QtObject {
             "Wandschalter kurz aus und wieder an schaltet das Licht um; die Lampe startet im umgeschalteten Zustand.",
         "Like On, with Bluetooth tuned to reconnect faster after a flick.":
             "Wie An, dazu ist Bluetooth auf schnelleres Wiederverbinden nach kurzem Aus- und Einschalten eingestellt.",
-        "Like Fast, without a Bluetooth connection: Haus.Licht takes one Bluetooth adapter for itself and re-arms the bulb sooner after a flick.":
-            "Wie Schnell, aber ohne Bluetooth-Verbindung: Haus.Licht nimmt einen Bluetooth-Adapter ganz für sich und stellt die Lampe nach kurzem Aus- und Einschalten schneller wieder ein.",
+        "Like Fast, without a Bluetooth connection: Lichthaus takes one Bluetooth adapter for itself and re-arms the bulb sooner after a flick.":
+            "Wie Schnell, aber ohne Bluetooth-Verbindung: Lichthaus nimmt einen Bluetooth-Adapter ganz für sich und stellt die Lampe nach kurzem Aus- und Einschalten schneller wieder ein.",
         "Adapter:": "Adapter:",
         "built-in": "eingebaut",
         "USB": "USB",
@@ -125,8 +125,8 @@ QtObject {
         "Widget 1 sits in the system tray, the others in the panel next to it.":
             "Widget 1 sitzt im Systemabschnitt, die anderen daneben in der Leiste.",
         "Use": "Benutzen",
-        "Off: Haus.Licht leaves this bulb alone. It comes on after a power cut like an ordinary bulb.":
-            "Aus: Haus.Licht lässt diese Lampe in Ruhe. Nach einem Stromausfall geht sie an wie eine gewöhnliche Lampe.",
+        "Off: Lichthaus leaves this bulb alone. It comes on after a power cut like an ordinary bulb.":
+            "Aus: Lichthaus lässt diese Lampe in Ruhe. Nach einem Stromausfall geht sie an wie eine gewöhnliche Lampe.",
         "Show in this widget": "In diesem Widget zeigen",
         "Show in widget 1": "In Widget 1 zeigen",
         "Icon when on": "Symbol, wenn an",
@@ -352,7 +352,7 @@ QtObject {
     function quote(word) { return "'" + String(word).replace(/'/g, "'\\''") + "'" }
     function run(args, done) {
         if (widget !== 1) args = ["@" + widget].concat(args)
-        const source = '"$HOME/.local/bin/hauslicht-ctl" ' + args.map(quote).join(" ")
+        const source = '"$HOME/.local/bin/lichthaus-ctl" ' + args.map(quote).join(" ")
                        + " # " + Date.now() + Math.random()  // unique: the engine runs each source once
         const cbs = callbacks
         cbs[source] = done || null

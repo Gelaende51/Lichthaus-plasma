@@ -1,7 +1,7 @@
-# On a tag v<version>: zip package/ into haus.licht.tray-<version>.plasmoid,
+# On a tag v<version>: zip package/ into lichthaus.tray-<version>.plasmoid,
 # write its .sha256 beside it and publish both as the GitHub release. The tag
 # must equal package/metadata.json's KPlugin.Version (v0.2 for 0.2).
-# Haus.Licht's install/install.sh installs the latest release this way.
+# Lichthaus's install/install.sh installs the latest release this way.
 name: Release
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          file="haus.licht.tray-$VERSION.plasmoid"
+          file="lichthaus.tray-$VERSION.plasmoid"
           mkdir -p dist
           # metadata.json at the archive's root, as kpackagetool6 expects
           (cd package && zip -X -r "../dist/$file" .)
@@ -43,4 +43,4 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes \
-            "dist/haus.licht.tray-$VERSION.plasmoid" "dist/haus.licht.tray-$VERSION.plasmoid.sha256"
+            "dist/lichthaus.tray-$VERSION.plasmoid" "dist/lichthaus.tray-$VERSION.plasmoid.sha256"

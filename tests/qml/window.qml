@@ -1,7 +1,7 @@
 /*
  * tests/test_widget_settings.py: the settings window's stand-in for
  * Plasmoid.configuration (standalone/imports first on the import path)
- * against fake-hauslicht-ctl. Prints FIRST once the daemon's widget 1 values
+ * against fake-lichthaus-ctl. Prints FIRST once the daemon's widget 1 values
  * arrived, LAST after the window changed autoScanBluetooth.
  */
 import QtQuick

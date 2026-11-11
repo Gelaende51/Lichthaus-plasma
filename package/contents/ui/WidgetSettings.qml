@@ -1,5 +1,5 @@
 /*
- * The widget's own settings, kept by the daemon per widget (Haus.Licht's
+ * The widget's own settings, kept by the daemon per widget (Lichthaus's
  * settings.widget_settings: `get` carries them, `widget-settings-set`
  * writes them), so the tray widget, the settings window (widget 1) and any
  * other front end show the same: invertScroll, iconSet, clapLast,
@@ -112,7 +112,7 @@ QtObject {
                 if (--left[dkey] <= 0) delete left[dkey]
             sync.pushing = left
             if (reply.error) {
-                console.warn("Haus.Licht: widget-settings-set " + words.join(" ") + ": " + reply.error)
+                console.warn("Lichthaus: widget-settings-set " + words.join(" ") + ": " + reply.error)
                 const forget = sync.seen
                 for (const dkey of sent) {
                     delete forget[dkey]  // the daemon's value wins again on the next get

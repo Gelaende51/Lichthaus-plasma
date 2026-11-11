@@ -11,11 +11,11 @@
         "License": "AGPL-3.0-or-later",
         "Name": "Video",
         "Name[de]": "Video",
-        "Website": "https://github.com/Gelaende51/Haus.Licht"
+        "Website": "https://github.com/Gelaende51/Lichthaus"
     },
-    "X-HausLicht-Page": "configVideo.qml",
-    "X-KDE-Keywords": "video,screen,ambient,follow,light,Haus.Licht",
-    "X-KDE-Keywords[de]": "Video,Bildschirm,Ambilight,folgen,Licht,Haus.Licht",
-    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-Lichthaus-Page": "configVideo.qml",
+    "X-KDE-Keywords": "video,screen,ambient,follow,light,Lichthaus",
+    "X-KDE-Keywords[de]": "Video,Bildschirm,Ambilight,folgen,Licht,Lichthaus",
+    "X-KDE-System-Settings-Parent-Category": "lichthaus",
     "X-KDE-Weight": 40
 }

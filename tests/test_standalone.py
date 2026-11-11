@@ -1,5 +1,5 @@
 """The standalone settings window (package/contents/standalone/, run by
-`hauslicht config`): its stand-in for Plasmoid.configuration declares every
+`lichthaus config`): its stand-in for Plasmoid.configuration declares every
 key of config/main.xml with the same type and default, and the pages it hosts
 are the ones config/config.qml lists."""
 import re

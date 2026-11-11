@@ -1,6 +1,6 @@
 /*
  * tests/test_widget_settings.py: ui/WidgetSettings.qml with the real
- * HausCtl.qml against fake-hauslicht-ctl ($HOME/.local/bin in a temporary
+ * HausCtl.qml against fake-lichthaus-ctl ($HOME/.local/bin in a temporary
  * home). The configuration is a plain object holding non-default values, as
  * a widget's would after the user chose them. Prints FIRST (after the first
  * gets: migration or the daemon's values), SECOND (after another front end

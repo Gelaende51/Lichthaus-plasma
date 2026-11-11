@@ -1,7 +1,7 @@
 /*
  * tests/test_kcm.py: the System Settings host (standalone/kcm.qml) as the
  * KCM loads it (standalone/imports on the import path, pageSource and
- * addBulb as initial properties), against fake-hauslicht-ctl. Prints FIRST
+ * addBulb as initial properties), against fake-lichthaus-ctl. Prints FIRST
  * once the daemon's widget 1 values arrived (the page's cfg_ properties,
  * whether its Add dialog took the request), LAST after the page changed
  * cfg_invertScroll; ERROR when the host did not load.

@@ -11,13 +11,13 @@ class QQmlEngine;
 class QQuickWidget;
 
 // One of the widget's Configure pages in System Settings. Which page comes
-// from the plugin's metadata (X-HausLicht-Page); see hauslichtkcm.cpp.
-class HausLichtKcm : public KCModule
+// from the plugin's metadata (X-Lichthaus-Page); see lichthauskcm.cpp.
+class LichthausKcm : public KCModule
 {
     Q_OBJECT
 public:
-    HausLichtKcm(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
-    ~HausLichtKcm() override;
+    LichthausKcm(QObject *parent, const KPluginMetaData &data, const QVariantList &args);
+    ~LichthausKcm() override;
 
 private:
     void showMessage(const QString &text);

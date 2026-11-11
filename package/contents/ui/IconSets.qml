@@ -11,7 +11,7 @@ import QtQuick
 QtObject {
     readonly property string fallback: "lighthouse"
     readonly property var sets: [
-        { "id": "lighthouse", "name": "Haus.Licht", "source": "Haus.Licht", "licence": "AGPL-3.0" },
+        { "id": "lighthouse", "name": "Lichthaus", "source": "Lichthaus", "licence": "AGPL-3.0" },
         { "id": "mdi-lighthouse", "name": "Material Design: Lighthouse",
           "source": "Material Design Icons (Pictogrammers)", "licence": "Apache-2.0" },
         { "id": "mdi-bulb", "name": "Material Design: Bulb",

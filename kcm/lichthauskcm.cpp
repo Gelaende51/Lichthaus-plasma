@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 //
-// Haus.Licht's settings in KDE System Settings: one KCM per Configure page of
+// Lichthaus's settings in KDE System Settings: one KCM per Configure page of
 // the widget. The page is the widget's own file (package/contents/ui), found
 // in the installed widget, so a change to it shows in the widget's Configure
-// dialog, in the `hauslicht config` window and here alike.
+// dialog, in the `lichthaus config` window and here alike.
 //
 // The pages `import org.kde.plasma.plasmoid`, which only works inside
 // plasmashell. The standalone window gives them a stand-in
@@ -18,9 +18,9 @@
 // acts as widget 1.
 //
 // Arguments: "add" opens the Bulbs page's Add dialog (`systemsettings
-// kcm_hauslicht_bulbs --args add`, the popup's "Connect new bulb…"), also when
+// kcm_lichthaus_bulbs --args add`, the popup's "Connect new bulb…"), also when
 // the page is open already.
-#include "hauslichtkcm.h"
+#include "lichthauskcm.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -38,7 +38,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace
 {
-const auto packageId = u"haus.licht.tray"_s;
+const auto packageId = u"lichthaus.tray"_s;
 const auto hostFile = u"contents/standalone/kcm.qml"_s;
 const auto importsDir = u"contents/standalone/imports"_s;
 
@@ -55,19 +55,19 @@ QString expandHome(const QString &path)
     return path;
 }
 
-// Where the widget's package may be, in the order `hauslicht config` tries
-// them: $HAUSLICHT_PLASMOID, the widget installed per user or system-wide
-// (the XDG data directories), and ~/.local/share/hauslicht/plasmoid (unpacked
-// by Haus.Licht's install.sh where there is no kpackagetool6).
+// Where the widget's package may be, in the order `lichthaus config` tries
+// them: $LICHTHAUS_PLASMOID, the widget installed per user or system-wide
+// (the XDG data directories), and ~/.local/share/lichthaus/plasmoid (unpacked
+// by Lichthaus's install.sh where there is no kpackagetool6).
 QStringList packageDirs()
 {
     QStringList dirs;
-    const QString env = qEnvironmentVariable("HAUSLICHT_PLASMOID");
+    const QString env = qEnvironmentVariable("LICHTHAUS_PLASMOID");
     if (!env.isEmpty()) {
         dirs << QDir::cleanPath(expandHome(env));
     }
     dirs << QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, u"plasma/plasmoids/"_s + packageId, QStandardPaths::LocateDirectory);
-    dirs << QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + u"/hauslicht/plasmoid"_s;
+    dirs << QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + u"/lichthaus/plasmoid"_s;
     return dirs;
 }
 
@@ -111,7 +111,7 @@ bool wantsAddBulb(const QVariantList &args)
 }
 } // namespace
 
-HausLichtKcm::HausLichtKcm(QObject *parent, const KPluginMetaData &data, const QVariantList &args)
+LichthausKcm::LichthausKcm(QObject *parent, const KPluginMetaData &data, const QVariantList &args)
     : KCModule(parent, data)
 {
     // The pages change the daemon directly: nothing to apply or reset.
@@ -120,11 +120,11 @@ HausLichtKcm::HausLichtKcm(QObject *parent, const KPluginMetaData &data, const Q
     auto layout = new QVBoxLayout(widget());
     layout->setContentsMargins(0, 0, 0, 0);
 
-    const QString page = data.value(u"X-HausLicht-Page"_s);
+    const QString page = data.value(u"X-Lichthaus-Page"_s);
     const QString package = findPackage();
     if (package.isEmpty()) {
-        showMessage(german() ? u"Die Seiten von Haus.Licht wurden nicht gefunden: Das Haus.Licht-Widget (Haus.Licht-plasma) ist nicht installiert oder zu alt (ohne contents/standalone/kcm.qml)."_s
-                             : u"Haus.Licht's pages were not found: the Haus.Licht widget (Haus.Licht-plasma) is not installed or too old (no contents/standalone/kcm.qml)."_s);
+        showMessage(german() ? u"Die Seiten von Lichthaus wurden nicht gefunden: Das Lichthaus-Widget (Lichthaus-plasma) ist nicht installiert oder zu alt (ohne contents/standalone/kcm.qml)."_s
+                             : u"Lichthaus's pages were not found: the Lichthaus widget (Lichthaus-plasma) is not installed or too old (no contents/standalone/kcm.qml)."_s);
         return;
     }
 
@@ -163,13 +163,13 @@ HausLichtKcm::HausLichtKcm(QObject *parent, const KPluginMetaData &data, const Q
     });
 }
 
-HausLichtKcm::~HausLichtKcm()
+LichthausKcm::~LichthausKcm()
 {
     // The view before its engine.
     delete m_view;
 }
 
-void HausLichtKcm::showMessage(const QString &text)
+void LichthausKcm::showMessage(const QString &text)
 {
     auto label = new QLabel(text, widget());
     label->setWordWrap(true);

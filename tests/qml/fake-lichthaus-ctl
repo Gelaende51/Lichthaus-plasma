@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""A stand-in for hauslicht-ctl in the QML tests (tests/test_widget_settings.py):
+"""A stand-in for lichthaus-ctl in the QML tests (tests/test_widget_settings.py):
 the daemon's widget settings in a JSON file, every call logged. Never talks
 to a socket.
 
-FAKE_HAUSLICHT_STATE: {"widgets": {"1": {...}}, "old": bool, "down": bool,
+FAKE_LICHTHAUS_STATE: {"widgets": {"1": {...}}, "old": bool, "down": bool,
 "refuse": bool, "get": {...}, "replies": {cmd: {...}}}; get: more
 fields of the get object (clap_status, clap_source, ...); replies: what
 clap-meter, clap-hits, clap-sources and audio-sources answer; old: a daemon from before widget settings (no
@@ -15,7 +15,7 @@ import json
 import os
 import sys
 
-path = os.environ["FAKE_HAUSLICHT_STATE"]
+path = os.environ["FAKE_LICHTHAUS_STATE"]
 with open(path) as f:
     state = json.load(f)
 args = sys.argv[1:]

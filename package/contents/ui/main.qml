@@ -1,8 +1,8 @@
 /*
- * Haus.Licht tray widget: settings for the hauslicht sync daemon.
+ * Lichthaus tray widget: settings for the lichthaus sync daemon.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Talks to the daemon only through `hauslicht-ctl` (socket client), run by
+ * Talks to the daemon only through `lichthaus-ctl` (socket client), run by
  * the executable data engine. Left click opens the popup, middle click
  * switches the selection on/off, the wheel nudges its brightness. Everything
  * acts on the selection (one bulb or all), which the header's box picks.
@@ -53,7 +53,7 @@ PlasmoidItem {
     readonly property bool powered: reachable && st.power !== false && st.bulbs !== 0
     readonly property bool lit: reachable && st.power !== false && st.bulbs > 0
     readonly property bool disconnected: !reachable || st.connected === false || st.online === false
-    // The daemon's ctl protocol (docs/ctl-protocol.md in Haus.Licht, "protocol" in `get`):
+    // The daemon's ctl protocol (docs/ctl-protocol.md in Lichthaus, "protocol" in `get`):
     // it rises only for changes that break an older widget. Missing or lower: a
     // service from before this widget; the popup says so and stays usable.
     readonly property int minProtocol: 1
@@ -167,8 +167,8 @@ PlasmoidItem {
         "Top right": "Oben rechts",
         "Bottom left": "Unten links",
         "Bottom right": "Unten rechts",
-        "The Haus.Licht service is too old for this widget: update Haus.Licht.":
-            "Der Haus.Licht-Dienst ist zu alt für dieses Widget: Haus.Licht aktualisieren.",
+        "The Lichthaus service is too old for this widget: update Lichthaus.":
+            "Der Lichthaus-Dienst ist zu alt für dieses Widget: Lichthaus aktualisieren.",
     })
     function tr(text) { return (german && de[text]) ? de[text] : text }
 
@@ -374,7 +374,7 @@ PlasmoidItem {
         onNewData: source => disconnectSource(source)
     }
     function openDebugWindow() {
-        launcher.connectSource('h="$HOME/.local/bin/hauslicht"; [ -x "$h" ] || h=hauslicht; '
+        launcher.connectSource('h="$HOME/.local/bin/lichthaus"; [ -x "$h" ] || h=lichthaus; '
                                + 'setsid -f "$h" debug >/dev/null 2>&1 # ' + Date.now())
     }
     // HighPriority actions: the system tray shows them as icon buttons in
@@ -417,7 +417,7 @@ PlasmoidItem {
     // click (toggle) and wheel (nudge) follow the header's choice.
     Plasmoid.icon: root.trayIcon.source
     Plasmoid.status: PlasmaCore.Types.ActiveStatus
-    toolTipMainText: "Haus.Licht"
+    toolTipMainText: "Lichthaus"
     toolTipSubText: selectionName() + ": " + connectionStatus() + "\n"
                     + tr("Middle click: on/off · Wheel: brighter/darker")
 
@@ -493,13 +493,13 @@ PlasmoidItem {
     // request: Bulbs opens its Add dialog while it is set and clears it
     // (configBulbs.qml); every other page of ours switches the dialog to
     // Bulbs when it is set (AddBulbRedirect.qml).
-    // With Haus.Licht's pages in System Settings (the KCMs of kcm/), that is
-    // where it goes instead: `hauslicht config --system-settings --add-bulb`
+    // With Lichthaus's pages in System Settings (the KCMs of kcm/), that is
+    // where it goes instead: `lichthaus config --system-settings --add-bulb`
     // opens System Settings at Bulbs with its Add dialog, and exits non-zero
     // (changing nothing) where they are not installed, or without the
     // command; then Plasma's Configure dialog opens as before.
     function connectNew() {
-        hc.shell(["sh", "-c", 'exec "$HOME/.local/bin/hauslicht" config --system-settings --add-bulb'], code => {
+        hc.shell(["sh", "-c", 'exec "$HOME/.local/bin/lichthaus" config --system-settings --add-bulb'], code => {
             if (code === 0) return
             Plasmoid.configuration.openAddBulb = true
             Plasmoid.internalAction("configure").trigger()
@@ -941,7 +941,7 @@ PlasmoidItem {
                     Layout.fillWidth: true
                     type: Kirigami.MessageType.Warning
                     visible: root.serviceTooOld
-                    text: root.tr("The Haus.Licht service is too old for this widget: update Haus.Licht.")
+                    text: root.tr("The Lichthaus service is too old for this widget: update Lichthaus.")
                 }
 
                 // Brightness: what the bulbs show; sets the level where it rules.

@@ -1,6 +1,6 @@
 # The Plasma widget loaded once in Plasma 6: an Arch container (Ubuntu 24.04
 # packages Plasma 5), the package installed with kpackagetool6 as
-# Haus.Licht's install/install.sh does, plasmoidviewer under Xvfb in a D-Bus
+# Lichthaus's install/install.sh does, plasmoidviewer under Xvfb in a D-Bus
 # session, a screenshot as artifact. No daemon runs, so the widget shows its
 # not-running state.
 #
@@ -37,7 +37,7 @@ jobs:
       - name: kpackagetool6 -i
         run: |
           kpackagetool6 -t Plasma/Applet -i package
-          kpackagetool6 -t Plasma/Applet --list | grep -x haus.licht.tray
+          kpackagetool6 -t Plasma/Applet --list | grep -x lichthaus.tray
       - name: plasmoidviewer
         run: |
           Xvfb :99 -screen 0 1280x800x24 >/dev/null 2>&1 &
@@ -46,7 +46,7 @@ jobs:
           export XDG_RUNTIME_DIR=/tmp/runtime; mkdir -p -m 700 "$XDG_RUNTIME_DIR"
           sleep 2
           # planar (desktop) form factor: the full representation, not the tray icon
-          dbus-run-session -- plasmoidviewer -a haus.licht.tray -f planar -s 600x500 > /tmp/viewer.log 2>&1 &
+          dbus-run-session -- plasmoidviewer -a lichthaus.tray -f planar -s 600x500 > /tmp/viewer.log 2>&1 &
           viewer=$!
           sleep 25
           mkdir -p shots

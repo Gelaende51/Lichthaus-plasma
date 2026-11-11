@@ -1,5 +1,5 @@
 /*
- * The standalone settings window (`hauslicht config`): the widget's Configure
+ * The standalone settings window (`lichthaus config`): the widget's Configure
  * pages (config/config.qml, ui/config*.qml) in a window of their own, for
  * desktops without the widget and for other front ends' "Settings…" entries.
  *
@@ -28,7 +28,7 @@ QQC2.ApplicationWindow {
 
     readonly property bool german: Qt.locale().name.startsWith("de")
 
-    title: german ? "Haus.Licht-Einstellungen" : "Haus.Licht settings"
+    title: german ? "Lichthaus-Einstellungen" : "Lichthaus settings"
     width: Kirigami.Units.gridUnit * 45
     height: Kirigami.Units.gridUnit * 35
     minimumWidth: Kirigami.Units.gridUnit * 30
@@ -37,14 +37,14 @@ QQC2.ApplicationWindow {
 
     // Shown only once the app identity is set: on Wayland Qt derives the
     // window's app id from it when the window is first shown, as the domain
-    // reversed plus the name the runtime was started under. "hauslicht
-    // config" starts it through a link named HausLicht, which makes
-    // io.github.gelaende51.HausLicht, Haus.Licht's desktop file: the
+    // reversed plus the name the runtime was started under. "lichthaus
+    // config" starts it through a link named Lichthaus, which makes
+    // io.github.gelaende51.Lichthaus, Lichthaus's desktop file: the
     // compositor shows its icon and name. (It also keeps Qt from sending the
     // qml runtime's own icon.)
     visible: false
     Component.onCompleted: {
-        Qt.application.name = "HausLicht"
+        Qt.application.name = "Lichthaus"
         Qt.application.organization = "Gelaende51"
         Qt.application.domain = "gelaende51.github.io"
         visible = true

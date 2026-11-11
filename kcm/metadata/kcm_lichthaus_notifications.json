@@ -11,11 +11,11 @@
         "License": "AGPL-3.0-or-later",
         "Name": "Notifications",
         "Name[de]": "Benachrichtigungen",
-        "Website": "https://github.com/Gelaende51/Haus.Licht"
+        "Website": "https://github.com/Gelaende51/Lichthaus"
     },
-    "X-HausLicht-Page": "configNotifications.qml",
-    "X-KDE-Keywords": "notification,notifications,blink,alert,light,Haus.Licht",
-    "X-KDE-Keywords[de]": "Benachrichtigung,Benachrichtigungen,blinken,Hinweis,Licht,Haus.Licht",
-    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-Lichthaus-Page": "configNotifications.qml",
+    "X-KDE-Keywords": "notification,notifications,blink,alert,light,Lichthaus",
+    "X-KDE-Keywords[de]": "Benachrichtigung,Benachrichtigungen,blinken,Hinweis,Licht,Lichthaus",
+    "X-KDE-System-Settings-Parent-Category": "lichthaus",
     "X-KDE-Weight": 50
 }

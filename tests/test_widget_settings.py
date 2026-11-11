@@ -1,6 +1,6 @@
 """ui/WidgetSettings.qml: the widget's own settings (invertScroll, iconSet,
 clapLast, autoScanBluetooth) kept by the daemon per widget. Runs the real
-HausCtl.qml under Qt's qml runtime (offscreen) against a fake hauslicht-ctl
+HausCtl.qml under Qt's qml runtime (offscreen) against a fake lichthaus-ctl
 in a temporary home, so nothing reaches a live daemon: the one-time
 migration of the widget's values, taking over the daemon's, a change from
 another front end, a local change, an old daemon, no daemon, a refused
@@ -32,11 +32,11 @@ def harness(tmp_path, qml, daemon, *extra):
     state, the ctl calls in order)."""
     home = tmp_path / "home"
     (home / ".local" / "bin").mkdir(parents=True)
-    shutil.copy(QML / "fake-hauslicht-ctl", home / ".local" / "bin" / "hauslicht-ctl")
+    shutil.copy(QML / "fake-lichthaus-ctl", home / ".local" / "bin" / "lichthaus-ctl")
     state = tmp_path / "state.json"
     state.write_text(json.dumps(daemon))
-    env = {**os.environ, "HOME": str(home), "FAKE_HAUSLICHT_STATE": str(state),
-           "HAUSLICHT_SOCK": str(tmp_path / "no.sock"),  # whatever runs: never the live daemon
+    env = {**os.environ, "HOME": str(home), "FAKE_LICHTHAUS_STATE": str(state),
+           "LICHTHAUS_SOCK": str(tmp_path / "no.sock"),  # whatever runs: never the live daemon
            "XDG_CONFIG_HOME": str(home / ".config"), "QT_QPA_PLATFORM": "offscreen",
            "QT_FORCE_STDERR_LOGGING": "1", "LANG": "C", "LC_ALL": "C"}
     env.pop("QT_LOGGING_RULES", None)
@@ -117,4 +117,4 @@ def test_the_settings_window_is_widget_1_of_the_daemon(tmp_path):
     assert sets(calls) == [["auto_scan_bluetooth=on"]]
     assert all(c[0] != "@1" and not c[0].startswith("@") for c in calls)  # widget 1: no @N
     assert state["widgets"]["1"] == {"icon_set": "fluent-bulb", "invert_scroll": True, "auto_scan_bluetooth": True}
-    assert not (tmp_path / "home" / ".config" / "hauslicht" / "settings-window.ini").exists()
+    assert not (tmp_path / "home" / ".config" / "lichthaus" / "settings-window.ini").exists()

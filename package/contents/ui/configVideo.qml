@@ -59,7 +59,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
             visible: !page.ctl.reachable
             type: Kirigami.MessageType.Warning
-            text: page.tr("The Haus.Licht service does not answer. Start it with: systemctl --user start hauslicht")
+            text: page.tr("The Lichthaus service does not answer. Start it with: systemctl --user start lichthaus")
         }
         Kirigami.InlineMessage {
             Layout.fillWidth: true

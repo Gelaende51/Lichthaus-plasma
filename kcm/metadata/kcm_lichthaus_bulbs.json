@@ -11,11 +11,11 @@
         "License": "AGPL-3.0-or-later",
         "Name": "Bulbs",
         "Name[de]": "Lampen",
-        "Website": "https://github.com/Gelaende51/Haus.Licht"
+        "Website": "https://github.com/Gelaende51/Lichthaus"
     },
-    "X-HausLicht-Page": "configBulbs.qml",
-    "X-KDE-Keywords": "bulb,bulbs,lamp,light,connect,add,Bluetooth,widget,icon,Haus.Licht",
-    "X-KDE-Keywords[de]": "Lampe,Lampen,Glühbirne,Licht,verbinden,hinzufügen,Bluetooth,Widget,Symbol,Haus.Licht",
-    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-Lichthaus-Page": "configBulbs.qml",
+    "X-KDE-Keywords": "bulb,bulbs,lamp,light,connect,add,Bluetooth,widget,icon,Lichthaus",
+    "X-KDE-Keywords[de]": "Lampe,Lampen,Glühbirne,Licht,verbinden,hinzufügen,Bluetooth,Widget,Symbol,Lichthaus",
+    "X-KDE-System-Settings-Parent-Category": "lichthaus",
     "X-KDE-Weight": 10
 }

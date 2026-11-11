@@ -1,6 +1,6 @@
 /*
  * tests/test_kcm.py: Configure → Sound in the System Settings host
- * (standalone/kcm.qml), against fake-hauslicht-ctl with every widget's clap
+ * (standalone/kcm.qml), against fake-lichthaus-ctl with every widget's clap
  * off. Prints FIRST once the test meter (clap-meter --listen) and Recent
  * sounds (clap-hits) answered, then picks a microphone; LAST after that
  * reply; ERROR when the host did not load.

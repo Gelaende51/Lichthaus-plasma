@@ -1,7 +1,7 @@
 /*
  * The Configure dialog: bulbs, profiles, sound (clap detection, follow audio), video
  * (follow video) and notifications (blink on desktop notifications). Both pages change the daemon
- * directly through hauslicht-ctl, so there is nothing to apply.
+ * directly through lichthaus-ctl, so there is nothing to apply.
  */
 import QtQuick
 import org.kde.plasma.configuration

@@ -11,11 +11,11 @@
         "License": "AGPL-3.0-or-later",
         "Name": "Sound",
         "Name[de]": "Ton",
-        "Website": "https://github.com/Gelaende51/Haus.Licht"
+        "Website": "https://github.com/Gelaende51/Lichthaus"
     },
-    "X-HausLicht-Page": "configSound.qml",
-    "X-KDE-Keywords": "sound,audio,clap,snap,microphone,music,light,Haus.Licht",
-    "X-KDE-Keywords[de]": "Ton,Audio,Klatschen,Schnipsen,Mikrofon,Musik,Licht,Haus.Licht",
-    "X-KDE-System-Settings-Parent-Category": "hauslicht",
+    "X-Lichthaus-Page": "configSound.qml",
+    "X-KDE-Keywords": "sound,audio,clap,snap,microphone,music,light,Lichthaus",
+    "X-KDE-Keywords[de]": "Ton,Audio,Klatschen,Schnipsen,Mikrofon,Musik,Licht,Lichthaus",
+    "X-KDE-System-Settings-Parent-Category": "lichthaus",
     "X-KDE-Weight": 30
 }

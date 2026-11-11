@@ -1,9 +1,9 @@
 /*
  * Configure → Bulbs: how many widgets; every bulb in the global order (drag
- * to reorder), whether Haus.Licht uses it, whether this widget shows it, its
+ * to reorder), whether Lichthaus uses it, whether this widget shows it, its
  * icons (on, off, disconnected), name, device details, profile and removal;
  * "Add bulb…" opens the add dialog. Every change goes to the daemon at once
- * (hauslicht-ctl), nothing to apply, except the widget's own option at the
+ * (lichthaus-ctl), nothing to apply, except the widget's own option at the
  * bottom (Invert scroll direction, main.xml), which Apply saves, and the
  * icon set, which applies at once.
  */
@@ -72,7 +72,7 @@ KCM.SimpleKCM {
         }
     }
     function tr(text, ...args) { return ctl.tr(text, ...args) }
-    // The standalone settings window (hauslicht config) acts as widget 1 and
+    // The standalone settings window (lichthaus config) acts as widget 1 and
     // has no Configure dialog around it; Plasma leaves this undefined.
     readonly property bool standalone: Plasmoid.standalone === true
 
@@ -168,7 +168,7 @@ KCM.SimpleKCM {
     // A terminal following the service's journal: konsole, else the Debian
     // alternative, else xterm.
     function viewLogs() {
-        const cmd = "journalctl --user -u hauslicht -f"
+        const cmd = "journalctl --user -u lichthaus -f"
         ctl.shell(["sh", "-c", "for t in konsole x-terminal-emulator xterm; do "
                    + "if command -v \"$t\" >/dev/null 2>&1; then setsid -f \"$t\" -e " + cmd
                    + " >/dev/null 2>&1; exit 0; fi; done; exit 127"])
@@ -361,7 +361,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
             type: Kirigami.MessageType.Warning
             visible: !page.ctl.reachable
-            text: page.tr("The Haus.Licht service does not answer. Start it with: systemctl --user start hauslicht")
+            text: page.tr("The Lichthaus service does not answer. Start it with: systemctl --user start lichthaus")
         }
         Kirigami.InlineMessage {
             Layout.fillWidth: true
@@ -403,7 +403,7 @@ KCM.SimpleKCM {
                 {"value": "off", "text": "Off", "hint": "The wall switch works like a normal switch: power on means light on."},
                 {"value": "on", "text": "On", "hint": "Flicking the wall switch off and on toggles the light; the bulb boots into the toggled state."},
                 {"value": "fast", "text": "Fast (needs system setup)", "hint": "Like On, with Bluetooth tuned to reconnect faster after a flick."},
-                {"value": "exclusive", "text": "Exclusive (needs system setup)", "hint": "Like Fast, without a Bluetooth connection: Haus.Licht takes one Bluetooth adapter for itself and re-arms the bulb sooner after a flick."}
+                {"value": "exclusive", "text": "Exclusive (needs system setup)", "hint": "Like Fast, without a Bluetooth connection: Lichthaus takes one Bluetooth adapter for itself and re-arms the bulb sooner after a flick."}
             ]
             readonly property string mode: page.ctl.st.flick || "on"
             readonly property var setup: page.ctl.st.setup || ({})
@@ -732,7 +732,7 @@ KCM.SimpleKCM {
                                         text: page.tr("Use")
                                         checked: card.used
                                         onToggled: page.act(["bulb-set", card.bid, "use=" + (checked ? "on" : "off")])
-                                        QQC2.ToolTip.text: page.tr("Off: Haus.Licht leaves this bulb alone. It comes on after a power cut like an ordinary bulb.")
+                                        QQC2.ToolTip.text: page.tr("Off: Lichthaus leaves this bulb alone. It comes on after a power cut like an ordinary bulb.")
                                         QQC2.ToolTip.visible: hovered
                                         QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
                                     }
@@ -813,7 +813,7 @@ KCM.SimpleKCM {
                                 QQC2.Label {
                                     Layout.fillWidth: true
                                     wrapMode: Text.Wrap
-                                    text: page.tr("Remove %1? Haus.Licht stops controlling it.", card.bulb.name || card.bid)
+                                    text: page.tr("Remove %1? Lichthaus stops controlling it.", card.bulb.name || card.bid)
                                 }
                                 QQC2.Button {
                                     text: page.tr("Remove")
@@ -1103,7 +1103,7 @@ KCM.SimpleKCM {
                     Kirigami.SelectableLabel {
                         Layout.fillWidth: true
                         font.family: "monospace"
-                        text: "systemctl --user stop hauslicht; hauslicht adopt"
+                        text: "systemctl --user stop lichthaus; lichthaus adopt"
                     }
                 }
 

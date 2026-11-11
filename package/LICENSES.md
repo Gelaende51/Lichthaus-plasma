@@ -9,12 +9,12 @@ unchanged except where noted as derived.
 
 | Set (folder) | Source | Author | Licence | Files |
 |---|---|---|---|---|
-| `lighthouse` | Haus.Licht | Haus.Licht contributors | AGPL-3.0 (as the project, see [LICENSE](../LICENSE)) | all three |
-| `mdi-lighthouse` | [Material Design Icons](https://github.com/Templarian/MaterialDesign) | Pictogrammers | Apache-2.0 | `on` = *lighthouse-on*, `off` = *lighthouse*; `disconnected` derived: *lighthouse* with Haus.Licht's slash |
+| `lighthouse` | Lichthaus | Lichthaus contributors | AGPL-3.0 (as the project, see [LICENSE](../LICENSE)) | all three |
+| `mdi-lighthouse` | [Material Design Icons](https://github.com/Templarian/MaterialDesign) | Pictogrammers | Apache-2.0 | `on` = *lighthouse-on*, `off` = *lighthouse*; `disconnected` derived: *lighthouse* with Lichthaus's slash |
 | `mdi-bulb` | [Material Design Icons](https://github.com/Templarian/MaterialDesign) | Pictogrammers | Apache-2.0 | `on` = *lightbulb-on-outline*, `off` = *lightbulb-outline*, `disconnected` = *lightbulb-off-outline* |
 | `tabler-bulb` | [Tabler Icons](https://github.com/tabler/tabler-icons) | Paweł Kuna | MIT | `on` = *bulb*; derived: `off` = *bulb* without its rays, `disconnected` = *bulb-off* without its rays |
-| `fluent-bulb` | [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) | Microsoft Corporation | MIT | `on` = *lightbulb-filament-20-regular*, `off` = *lightbulb-20-regular*; `disconnected` derived: *lightbulb-20-regular* with Haus.Licht's slash |
-| `maki-lighthouse` | [Maki](https://github.com/mapbox/maki) | Mapbox | CC0-1.0 | derived from *lighthouse*: `on` as is, `off` without its rays, `disconnected` without rays and with Haus.Licht's slash |
+| `fluent-bulb` | [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) | Microsoft Corporation | MIT | `on` = *lightbulb-filament-20-regular*, `off` = *lightbulb-20-regular*; `disconnected` derived: *lightbulb-20-regular* with Lichthaus's slash |
+| `maki-lighthouse` | [Maki](https://github.com/mapbox/maki) | Mapbox | CC0-1.0 | derived from *lighthouse*: `on` as is, `off` without its rays, `disconnected` without rays and with Lichthaus's slash |
 
 Changes made to the Apache-2.0 files (`mdi-lighthouse/*`, `mdi-bulb/*`):
 rescaled from the 24 × 24 grid to 22 × 22, recoloured through the
