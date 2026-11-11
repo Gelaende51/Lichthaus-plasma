@@ -9,6 +9,8 @@ und Benachrichtigungen. Es ist nur eine Oberfläche: Es braucht den
 Lichthaus-Dienst (`lichthaus sync`) auf demselben Computer und spricht über
 `lichthaus-ctl` mit ihm.
 
+Früher Haus.Licht-plasma (Widget-ID `haus.licht.tray`); Lichthaus' `install/install.sh` stellt ein Widget im Panel auf die neue ID `lichthaus.tray` um, Einstellungen und Position bleiben. <!-- rename-lichthaus: keep -->
+
 - **Offenlegung KI-Einsatz**
   - Agent: Claude Code mit Claude Opus 5.5 (Anthropic) hat das Widget und
     diese Dokumentation geschrieben; seine Tokens sind in der Angabe in

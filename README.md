@@ -9,6 +9,8 @@ notifications. It is a front end only: it needs the Lichthaus service
 (`lichthaus sync`) running on the same computer and talks to it through
 `lichthaus-ctl`.
 
+Formerly Haus.Licht-plasma (widget id `haus.licht.tray`); Lichthaus's `install/install.sh` moves a panel's widget to the new id `lichthaus.tray`, settings and position kept. <!-- rename-lichthaus: keep -->
+
 - **AI disclosure**
   - Agent: Claude Code with Claude Opus 5.5 (Anthropic) wrote the widget and
     these docs; its tokens are part of the figure in

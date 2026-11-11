@@ -10,7 +10,7 @@
         "Id": "lichthaus.tray",
         "License": "AGPL-3.0-or-later",
         "Name": "Lichthaus",
-        "Version": "0.2",
+        "Version": "0.3",
         "Website": "https://github.com/Gelaende51/Lichthaus"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
