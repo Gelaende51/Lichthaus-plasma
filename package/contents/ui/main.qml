@@ -416,7 +416,14 @@ PlasmoidItem {
     // The top-level `get` fields describe the selection, so icon, middle
     // click (toggle) and wheel (nudge) follow the header's choice.
     Plasmoid.icon: root.trayIcon.source
-    Plasmoid.status: PlasmaCore.Types.ActiveStatus
+    // System Tray Settings → Entries → "Shown when relevant" hides a passive
+    // widget into the tray's hidden items: passive while none of this
+    // widget's bulbs is connected (out of reach, held or not found yet). A
+    // stopped service, or no bulb set up at all, stays shown: that needs
+    // the user.
+    readonly property bool anyBulbConnected: widgetBulbs().some(b => !bulbDisconnected(b))
+    Plasmoid.status: reachable && widgetBulbs().length > 0 && !anyBulbConnected
+                     ? PlasmaCore.Types.PassiveStatus : PlasmaCore.Types.ActiveStatus
     toolTipMainText: "Lichthaus"
     toolTipSubText: selectionName() + ": " + connectionStatus() + "\n"
                     + tr("Middle click: on/off · Wheel: brighter/darker")

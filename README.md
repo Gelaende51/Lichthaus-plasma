@@ -37,6 +37,10 @@ Formerly Haus.Licht-plasma (widget id `haus.licht.tray`); Lichthaus's `install/i
 When the Lichthaus service is older than the widget expects, the popup says
 so in one line; update Lichthaus.
 
+Out of range, it can hide: with Lichthaus set to *Show when relevant* in the
+System Tray's settings, under *Entries*, the tray tucks the widget into its hidden items while
+none of its bulbs is connected, and shows it again once one is.
+
 ## Settings
 
 On Plasma the Configure pages are also in System Settings → Connected Devices →

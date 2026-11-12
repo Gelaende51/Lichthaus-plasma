@@ -40,6 +40,11 @@ Früher Haus.Licht-plasma (Widget-ID `haus.licht.tray`); Lichthaus' `install/ins
 Ist der Lichthaus-Dienst älter, als das Widget erwartet, sagt das Popup das
 in einer Zeile; dann Lichthaus aktualisieren.
 
+Außer Reichweite kann es sich ausblenden: steht Lichthaus in den Einstellungen
+des Systemabschnitts unter *Einträge* auf *Anzeigen, wenn wichtig*, legt er das
+Widget zu den ausgeblendeten Einträgen, solange keine seiner Lampen verbunden
+ist, und zeigt es wieder, sobald eine es ist.
+
 ## Einstellungen
 
 Unter Plasma finden sich die Einstellungsseiten auch in den
